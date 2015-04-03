@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="eva.spejderapp">
+
+    <meta-data
+        android:name="com.google.android.maps.v2.AIzaSyCspQDmKRm8ZoKk2xmr5Gd9dosjOU9GUFE"
+        android:value="AIzaSyCspQDmKRm8ZoKk2xmr5Gd9dosjOU9GUFE" />
+
+    <!--Giver adgang til internet til hentning af maps fra Google Maps server.-->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--Giver adgang til netværkets status, så der kan holdes øje med om forbindelsen er intakt.-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!--Giver adgang til at API’en kan cache data på telefonens eksterne data.-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!--Giver adgang til googles web services.-->
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <!--Giver adgang til at anvende WIFI eller mobil data til at finde lokationen (dette er ikke det samme som GPS)-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!--Giver adgang til at anvende Global Positioning System, også bedre kendt som GPS. Dette er det mest optimale og præcise.-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!--Det giver adgang til at anvende OpenGL ES version 2, som anvendes til at rendering af kort.
+    Da dette er påkrævet for at kunne vise kort, vises applikationer med denne instilling ikke i google store.-->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:name=".SingletonApp"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".MainAct"
+            android:label="Spejderløb">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
