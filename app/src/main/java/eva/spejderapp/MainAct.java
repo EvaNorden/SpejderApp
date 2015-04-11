@@ -37,7 +37,7 @@ public class MainAct extends Activity implements DialogInterface.OnClickListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SingletonApp.gemData();
+      //  SingletonApp.gemData();
         SingletonApp.observatører.remove(this);
     }
 

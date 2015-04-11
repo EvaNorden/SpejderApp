@@ -14,7 +14,12 @@ import android.widget.ListView;
 
 import com.eva.backend.gameApi.model.Game;
 import com.eva.backend.gameApi.model.Post;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.json.JsonFactory;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -83,6 +88,22 @@ public class CreateGameFrag extends Fragment implements View.OnClickListener, Ad
         } else if (v == saveGame) {
             game.setName(gameName.getText().toString());
             SingletonApp.gemData();
+            System.out.println("ToString: " + game.toString());
+            try {
+                JsonFactory jf = new AndroidJsonFactory();
+                game.setFactory(jf);
+                System.out.println("ToPrettyString: "+game.toPrettyString());
+
+                Gson gson = new Gson();
+                Game g = gson.fromJson(game.toPrettyString(), Game.class);
+                g.setFactory(jf);
+                System.out.println("ToPrettyString2: "+g.toString());
+                System.out.println("Hertil String");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             getActivity().onBackPressed();
         }
     }
