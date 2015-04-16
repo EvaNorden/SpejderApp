@@ -13,7 +13,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
-        android:text="Opret Løb"
+        android:text="Løb"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
@@ -26,17 +26,6 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/gameName"
         android:text="Tilføj Post" />
-
-    <Button
-        android:id="@+id/saveGame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/difficultyLevel"
-        android:text="Gem Løb" />
 
     <Button
         android:id="@+id/difficultyLevel"
@@ -61,15 +50,36 @@
         android:layout_marginTop="30dp"
         android:hint="Løbets navn" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/difficultyLevel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout">
+
+        <Button
+            android:id="@+id/saveGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gem Løb"
+            android:layout_weight="0.5"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Slet Løb"
+            android:id="@+id/eraseGame"
+            android:layout_weight="0.5"/>
+    </LinearLayout>
+
     <ListView
         android:id="@+id/postList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/saveGame" />
+        android:layout_below="@+id/linearLayout" />
 
 </RelativeLayout>

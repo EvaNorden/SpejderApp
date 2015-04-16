@@ -5,10 +5,10 @@ import com.eva.backend.gameApi.model.Game;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ProgramData implements Serializable {
-    // Vigtigt: Sæt versionsnummer så objekt kan læses selvom klassen er ændret!
-    private static final long serialVersionUID = 12345; // bare et eller andet nr.
+public class ProgramData extends com.google.api.client.json.GenericJson {
 
+    @com.google.api.client.util.Key
     public ArrayList<Game> games = new ArrayList<Game>();
+    @com.google.api.client.util.Key
     public ArrayList<Game> onlineGames = new ArrayList<Game>();
 }

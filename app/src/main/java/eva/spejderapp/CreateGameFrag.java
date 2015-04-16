@@ -14,10 +14,8 @@ import android.widget.ListView;
 
 import com.eva.backend.gameApi.model.Game;
 import com.eva.backend.gameApi.model.Post;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.json.JsonFactory;
 
-import com.google.gson.Gson;
+import com.google.api.client.json.gson.GsonFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ public class CreateGameFrag extends Fragment implements View.OnClickListener, Ad
     ArrayList<String> postNames;
     private View rod;
     private EditText gameName;
-    private Button addPost, diffLevel, saveGame;
+    private Button addPost, diffLevel, saveGame, eraseGame;
     private Game game;
     private ListView postList;
 
@@ -44,10 +42,12 @@ public class CreateGameFrag extends Fragment implements View.OnClickListener, Ad
         diffLevel = (Button) rod.findViewById(R.id.difficultyLevel);
         saveGame = (Button) rod.findViewById(R.id.saveGame);
         postList = (ListView) rod.findViewById(R.id.postList);
+        eraseGame = (Button) rod.findViewById(R.id.eraseGame);
 
         addPost.setOnClickListener(this);
         diffLevel.setOnClickListener(this);
         saveGame.setOnClickListener(this);
+        eraseGame.setOnClickListener(this);
 
         if (getArguments() != null) {
             int index = getArguments().getInt("gameIndex");
@@ -88,22 +88,10 @@ public class CreateGameFrag extends Fragment implements View.OnClickListener, Ad
         } else if (v == saveGame) {
             game.setName(gameName.getText().toString());
             SingletonApp.gemData();
-            System.out.println("ToString: " + game.toString());
-            try {
-                JsonFactory jf = new AndroidJsonFactory();
-                game.setFactory(jf);
-                System.out.println("ToPrettyString: "+game.toPrettyString());
-
-                Gson gson = new Gson();
-                Game g = gson.fromJson(game.toPrettyString(), Game.class);
-                g.setFactory(jf);
-                System.out.println("ToPrettyString2: "+g.toString());
-                System.out.println("Hertil String");
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            getActivity().onBackPressed();
+        } else if (v==eraseGame) {
+            SingletonApp.getData().games.remove(game);
+            SingletonApp.gemData();
             getActivity().onBackPressed();
         }
     }

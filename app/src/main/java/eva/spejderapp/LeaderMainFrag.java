@@ -19,7 +19,7 @@ import com.eva.backend.gameApi.model.Post;
 import java.util.ArrayList;
 
 public class LeaderMainFrag extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
-    ArrayList<String> gameNames;
+    private ArrayList<String> gameNames;
     private View rod;
     private Button newGame, startGame, endGame;
     private ListView gameList;
@@ -43,7 +43,11 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
 
         gameNames = new ArrayList<String>();
         for (Game game : SingletonApp.getData().games) {
-            gameNames.add(game.getName());
+            if (game.getName()!=null) {
+                gameNames.add(game.getName());
+            } else {
+                SingletonApp.getData().games.remove(game);
+            }
         }
 
         ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, gameNames);
@@ -82,14 +86,16 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
             builderSingle.setNegativeButton("cancel",
                     new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {dialog.dismiss();}
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
                     });
 
             builderSingle.setAdapter(arrayAdapter,
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            new UpEndpointsAsyncTask(getActivity(),SingletonApp.getData().games.get(which)).execute();
+                            new UpEndpointsAsyncTask(getActivity(), SingletonApp.getData().games.get(which)).execute();
                             SingletonApp.getData().onlineGames.add(SingletonApp.getData().games.get(which));
                             SingletonApp.gemData();
                         }
@@ -108,15 +114,17 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
             builderSingle.setNegativeButton("cancel",
                     new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {dialog.dismiss();}
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
                     });
 
             builderSingle.setAdapter(arrayAdapter,
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            new DownEndpointsAsyncTask(getActivity(),SingletonApp.getData().onlineGames.get(which)).execute();
-                            SingletonApp.getData().onlineGames.remove(SingletonApp.getData().onlineGames.get(which));
+                            new DownEndpointsAsyncTask(getActivity(), SingletonApp.getData().onlineGames.get(which)).execute();
+                            SingletonApp.getData().onlineGames.remove(which);
                             SingletonApp.gemData();
                         }
                     });

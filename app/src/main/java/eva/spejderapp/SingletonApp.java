@@ -3,13 +3,13 @@ package eva.spejderapp;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
+
+import com.google.api.client.json.gson.GsonFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import eva.logik.ProgramData;
-import eva.logik.Serialisering;
 
 /**
  * Her kan foretages fælles initialisering.
@@ -22,16 +22,20 @@ public class SingletonApp extends Application {
     public static SingletonApp instance;
     public static ArrayList<Runnable> observatører = new ArrayList<Runnable>();
     private static ProgramData data;
+    private static GsonFactory factory = new GsonFactory();
 
     public static ProgramData getData() {
         return data;
     }
 
     public static void gemData() {
+        String j1 = null;
         try {
-            Serialisering.gem(data, instance.getFilesDir() + "/programdata.ser");
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            j1 = factory.toString(data);
+            System.out.println(j1);
+            prefs.edit().putString("data",j1).commit();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -46,13 +50,17 @@ public class SingletonApp extends Application {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Programdata der skal være indlæst ved opstart
-        try {
-            data = (ProgramData) Serialisering.hent(getFilesDir() + "/programdata.ser");
-            Log.d("data", "" + data);
-            System.out.println("programdata indlæst fra fil");
-        } catch (Exception ex) {
-            data = new ProgramData(); // fil fandtes ikke eller data var inkompatible
-            System.out.println("programdata oprettet fra ny: " + ex);
+        if (prefs.contains("data")) {
+            try {
+                data = factory.fromString(prefs.getString("data",""), ProgramData.class);
+                System.out.println(data);
+            } catch (IOException e) {
+                data = new ProgramData(); // fil fandtes ikke eller data var inkompatible
+                System.out.println("Fejl: programdata oprettet fra ny: " + e);
+            }
+        } else {
+            data = new ProgramData();
+            System.out.println("programdata oprettet fra ny");
         }
 
         observatører.add(new Runnable() {
