@@ -9,6 +9,8 @@ public class Post implements Serializable {
     private String name;
     private int number;
     private String description;
+    private double latitude;
+    private double longitude;
     private String location;
 
     public Post() {}
@@ -43,5 +45,21 @@ public class Post implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

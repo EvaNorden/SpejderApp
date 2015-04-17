@@ -16,7 +16,6 @@ import com.eva.backend.gameApi.model.Game;
 import java.util.ArrayList;
 import java.util.List;
 
-import eva.spejderapp.ListEndpointsAsyncTask;
 import eva.spejderapp.R;
 
 /**
