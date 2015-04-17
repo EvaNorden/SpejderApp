@@ -1,4 +1,4 @@
-package eva.spejderapp;
+package eva.leder;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -17,6 +17,9 @@ import com.eva.backend.gameApi.model.Game;
 import com.eva.backend.gameApi.model.Post;
 
 import java.util.ArrayList;
+
+import eva.spejderapp.R;
+import eva.spejderapp.SingletonApp;
 
 public class LeaderMainFrag extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     private ArrayList<String> gameNames;
@@ -81,6 +84,9 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
                     android.R.layout.select_dialog_singlechoice);
             for (Game game : SingletonApp.getData().games) {
                 arrayAdapter.add(game.getName());
+            }
+            for (Game game : SingletonApp.getData().onlineGames) {
+                arrayAdapter.remove(game.getName());
             }
 
             builderSingle.setNegativeButton("cancel",

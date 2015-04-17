@@ -1,4 +1,4 @@
-package eva.spejderapp;
+package eva.leder;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.widget.EditText;
 
 import com.eva.backend.gameApi.model.Game;
 import com.eva.backend.gameApi.model.Post;
+
+import eva.spejderapp.R;
+import eva.spejderapp.SingletonApp;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +64,7 @@ public class PostFrag extends Fragment implements View.OnClickListener {
         if (v == postImage) {
             // kommer senere
         } else if (v == savePost) {
+
             if (post != null) {
                 post.setName(postName.getText().toString());
                 post.setDescription(postContent.getText().toString());

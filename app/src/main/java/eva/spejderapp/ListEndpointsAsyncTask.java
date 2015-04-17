@@ -1,27 +1,33 @@
 package eva.spejderapp;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.eva.backend.gameApi.GameApi;
 import com.eva.backend.gameApi.model.Game;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
+import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
-class UpEndpointsAsyncTask extends AsyncTask<Void, Void, Game> {
+import eva.spejder.ScoutMainFrag;
+
+/**
+ * Created by Eva on 16-04-2015.
+ */
+public class ListEndpointsAsyncTask extends AsyncTask<Void, Void, List<Game>> {
     private static GameApi myApiService = null;
-    private Context context;
-    private Game game;
+    private ScoutMainFrag context;
 
-    UpEndpointsAsyncTask(Context context, Game game) {
+    ListEndpointsAsyncTask(ScoutMainFrag context) {
         this.context = context;
-        this.game = game;
     }
 
     @Override
-    protected Game doInBackground(Void... params) {
+    protected List<Game> doInBackground(Void... params) {
         if (myApiService == null) { // Only do this once
             /*GameApi.Builder builder = new GameApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
@@ -44,19 +50,16 @@ class UpEndpointsAsyncTask extends AsyncTask<Void, Void, Game> {
         }
 
         try {
-            Game g = myApiService.insert(game).execute();
-            Long id = g.getId();
-            game.setId(id);
-            return g;
+            return myApiService.list().execute().getItems();
         } catch (IOException e) {
             System.out.println(e);
-            return new Game();
+            return Collections.EMPTY_LIST;
         }
     }
 
     @Override
-    protected void onPostExecute(Game result) {
-        //Toast.makeText(context, q.getWho() + " : " + q.getWhats(), Toast.LENGTH_LONG).show();
-        System.out.println("Noget: " + result.getName() + " ID: " + result.getId());
+    protected void onPostExecute(List<Game> result) {
+        System.out.println("Noget: " + result);
+        context.updateGameList(result);
     }
 }

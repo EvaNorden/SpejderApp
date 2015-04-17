@@ -1,4 +1,4 @@
-package eva.spejderapp;
+package eva.leder;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -15,10 +15,10 @@ import android.widget.ListView;
 import com.eva.backend.gameApi.model.Game;
 import com.eva.backend.gameApi.model.Post;
 
-import com.google.api.client.json.gson.GsonFactory;
-
-import java.io.IOException;
 import java.util.ArrayList;
+
+import eva.spejderapp.R;
+import eva.spejderapp.SingletonApp;
 
 
 public class CreateGameFrag extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
