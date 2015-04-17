@@ -62,7 +62,7 @@ public class FindPostFrag extends Fragment {
 
         MapsInitializer.initialize(getActivity());
 
-        map = mapView.getMap();
+        map = mapView.getMap();//
 
         Marker post = map.addMarker(new MarkerOptions().position(postPosition)
                 .title(""+game.getPosts().get(0).getNumber()));
