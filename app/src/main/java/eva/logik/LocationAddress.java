@@ -1,4 +1,4 @@
-package com.javapapers.androidgeocoding;
+package eva.logik;
 
 import android.content.Context;
 import android.location.Address;
@@ -42,9 +42,10 @@ public class LocationAddress {
                     if (result != null) {
                         message.what = 1;
                         Bundle bundle = new Bundle();
-                        result = "Latitude: " + latitude + " Longitude: " + longitude +
+                        String result2 = "Latitude: " + latitude + " Longitude: " + longitude +
                                 "\n\nAddress:\n" + result;
-                        bundle.putString("address", result);
+                        bundle.putString("address", result2);
+                        bundle.putString("foundAddress", result);
                         message.setData(bundle);
                     } else {
                         message.what = 1;
@@ -52,6 +53,7 @@ public class LocationAddress {
                         result = "Latitude: " + latitude + " Longitude: " + longitude +
                                 "\n Unable to get address for this lat-long.";
                         bundle.putString("address", result);
+                        bundle.putString("foundAddress", "");
                         message.setData(bundle);
                     }
                     message.sendToTarget();

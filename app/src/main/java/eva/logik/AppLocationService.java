@@ -1,4 +1,4 @@
-package com.javapapers.androidgeocoding;
+package eva.logik;
 
 import android.app.Service;
 import android.content.Context;

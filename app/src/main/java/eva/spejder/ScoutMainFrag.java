@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eva.spejderapp.R;
+import eva.spejderapp.SingletonApp;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,14 +50,19 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        FindPostFrag fragment = new FindPostFrag();
+        Bundle args = new Bundle();
+        args.putInt("gameIndex",position);
+        fragment.setArguments(args);
         getFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.main, new FindPostFrag())
+                .replace(R.id.main, fragment)
                 .addToBackStack(null)
                 .commit();
     }
 
     public void updateGameList(List<Game> result) {
+        SingletonApp.getData().scoutGames = result;
         gameNames = new ArrayList<String>();
         for (Game game : result) {
             gameNames.add(game.getName());
