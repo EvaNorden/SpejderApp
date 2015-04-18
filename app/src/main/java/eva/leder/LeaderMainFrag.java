@@ -82,11 +82,14 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
             builderSingle.setTitle("Vælg et løb:");
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
                     android.R.layout.select_dialog_singlechoice);
+            final ArrayList<Game> gamesForUpload = new ArrayList<Game>();
             for (Game game : SingletonApp.getData().games) {
                 arrayAdapter.add(game.getName());
+                gamesForUpload.add(game);
             }
             for (Game game : SingletonApp.getData().onlineGames) {
                 arrayAdapter.remove(game.getName());
+                gamesForUpload.remove(game);
             }
 
             builderSingle.setNegativeButton("cancel",
@@ -101,9 +104,8 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            new UpEndpointsAsyncTask(getActivity(), SingletonApp.getData().games.get(which)).execute();
-                            SingletonApp.getData().onlineGames.add(SingletonApp.getData().games.get(which));
-                            SingletonApp.gemData();
+                            new UpEndpointsAsyncTask(getActivity(), gamesForUpload.get(which)).execute();
+                            SingletonApp.getData().onlineGames.add(gamesForUpload.get(which));
                         }
                     });
             builderSingle.show();

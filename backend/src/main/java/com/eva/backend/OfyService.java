@@ -14,6 +14,7 @@ public class OfyService {
 
     static {
         ObjectifyService.register(Game.class);
+        ObjectifyService.register(Post.class);
     }
 
     public static Objectify ofy() {

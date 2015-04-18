@@ -12,6 +12,8 @@ import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
 
+import eva.spejderapp.SingletonApp;
+
 class UpEndpointsAsyncTask extends AsyncTask<Void, Void, Game> {
     private static GameApi myApiService = null;
     private Context context;
@@ -60,5 +62,6 @@ class UpEndpointsAsyncTask extends AsyncTask<Void, Void, Game> {
     protected void onPostExecute(Game result) {
         //Toast.makeText(context, q.getWho() + " : " + q.getWhats(), Toast.LENGTH_LONG).show();
         System.out.println("Noget: " + result.getName() + " ID: " + result.getId());
+        SingletonApp.gemData();
     }
 }

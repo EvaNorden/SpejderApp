@@ -9,7 +9,6 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -71,29 +70,14 @@ public class PostFrag extends Fragment implements View.OnClickListener {
         if (v == postImage) {
             // kommer senere
         } else if (v == savePost) {
+            if (post == null) {
+                post = new Post();
+                game.getPosts().add(post);
+            }
             String address = postLocation.getText().toString();
 
             GeocodingLocation locationAddress = new GeocodingLocation();
-            locationAddress.getAddressFromLocation(address,
-                    getActivity().getApplicationContext(), new GeocoderHandler());
-            if (post.getLocation().equals("")) ;
-            else {
-                if (post != null) {
-                    post.setName(postName.getText().toString());
-                    post.setDescription(postContent.getText().toString());
-                    post.setNumber(Integer.parseInt(postNr.getText().toString()));
-                    post.setLocation(postLocation.getText().toString());
-                } else {
-                    post = new Post();
-                    post.setName(postName.getText().toString());
-                    post.setNumber(Integer.parseInt(postNr.getText().toString()));
-                    post.setDescription(postContent.getText().toString());
-                    post.setLocation(postLocation.getText().toString());
-
-                    game.getPosts().add(post);
-                }
-                getActivity().onBackPressed();
-            }
+            locationAddress.getAddressFromLocation(address, getActivity().getApplicationContext(), new GeocoderHandler());
         }
     }
 
@@ -108,10 +92,10 @@ public class PostFrag extends Fragment implements View.OnClickListener {
 
                     double latitude = bundle.getDouble("lat");
                     double longitude = bundle.getDouble("lng");
-                    System.out.println("Coor: "+latitude+"    "+longitude);
+                    System.out.println("Coor: " + latitude + "    " + longitude);
                     post.setLatitude(latitude);
                     post.setLongitude(longitude);
-                    System.out.println("Post: "+post.toString());
+                    System.out.println("Post: " + post.toString());
 
                     LocationAddress lAddress = new LocationAddress();
                     lAddress.getAddressFromLocation(latitude, longitude, getActivity(), new GeocoderHandler2());
@@ -132,7 +116,7 @@ public class PostFrag extends Fragment implements View.OnClickListener {
                     Bundle bundle = message.getData();
                     locationAddress = bundle.getString("foundAddress");
                     post.setLocation(locationAddress);
-                    System.out.println("Post lok: "+post.getLocation());
+                    System.out.println("Post lok: " + post.getLocation());
                     break;
                 default:
                     locationAddress = null;
@@ -161,6 +145,15 @@ public class PostFrag extends Fragment implements View.OnClickListener {
                         }
                     });
             builderSingle.show();
+
+            if (!(post.getLocation().equals(""))) {
+                post.setName(postName.getText().toString());
+                post.setDescription(postContent.getText().toString());
+                post.setNumber(Integer.parseInt(postNr.getText().toString()));
+                //post.setLocation(postLocation.getText().toString());
+
+                getActivity().onBackPressed();
+            }
         }
     }
 }

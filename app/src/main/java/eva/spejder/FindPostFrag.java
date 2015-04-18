@@ -62,25 +62,16 @@ public class FindPostFrag extends Fragment {
 
         MapsInitializer.initialize(getActivity());
 
-        map = mapView.getMap();////
+        map = mapView.getMap();
 
         Marker post = map.addMarker(new MarkerOptions().position(postPosition)
                 .title(""+game.getPosts().get(0).getNumber()));
 
-        /*Marker hamburg = map.addMarker(new MarkerOptions().position(HAMBURG)
-                .title("Hamburg"));
-        Marker kiel = map.addMarker(new MarkerOptions()
-                .position(HAMBURG)
-                .title("Kiel")
-                .snippet("Kiel is cool")
-                .icon(BitmapDescriptorFactory
-                        .fromResource(R.drawable.ic_launcher)));*/
-
         // Move the camera instantly to hamburg with a zoom of 15.
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(postPosition, 15));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(postPosition, 10));
 
         // Zoom in, animating the camera.
-        map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+        map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
         return rod;
     }
