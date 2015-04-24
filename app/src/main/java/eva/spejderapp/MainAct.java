@@ -37,8 +37,9 @@ public class MainAct extends Activity implements DialogInterface.OnClickListener
                         .add(R.id.main, fragment)
                         .commit();
             }
+            SingletonApp.observatører.add(this);
+            new GcmRegistrationAsyncTask(this).execute();
         }
-        SingletonApp.observatører.add(this);
     }
 
     @Override

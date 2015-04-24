@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.eva.backend.gameApi.model.Game;
-import com.eva.backend.gameApi.model.Post;
+import com.eva.backend2.gameApi.model.Game;
+import com.eva.backend2.gameApi.model.Post;
 
 import eva.logik.GeocodingLocation;
 import eva.logik.LocationAddress;

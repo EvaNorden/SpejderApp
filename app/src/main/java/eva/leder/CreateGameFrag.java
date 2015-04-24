@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.eva.backend.gameApi.model.Game;
-import com.eva.backend.gameApi.model.Post;
+import com.eva.backend2.gameApi.model.Game;
+import com.eva.backend2.gameApi.model.Post;
 
 import java.util.ArrayList;
 

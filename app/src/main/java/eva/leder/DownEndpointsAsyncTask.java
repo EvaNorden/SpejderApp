@@ -3,8 +3,8 @@ package eva.leder;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.eva.backend.gameApi.GameApi;
-import com.eva.backend.gameApi.model.Game;
+import com.eva.backend2.gameApi.GameApi;
+import com.eva.backend2.gameApi.model.Game;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -47,7 +47,7 @@ class DownEndpointsAsyncTask extends AsyncTask<Void, Void, Boolean> {
 
         try {
             System.out.println("ID: "+game.getId());
-            myApiService.removeGame(game.getId()).execute();
+            myApiService.remove(game.getId()).execute();
             return true;
         } catch (IOException e) {
             System.out.println(e);

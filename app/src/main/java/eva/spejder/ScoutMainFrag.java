@@ -11,8 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.eva.backend.gameApi.model.Game;
-import com.eva.backend.gameApi.model.Post;
+import com.eva.backend2.gameApi.model.Game;
+import com.eva.backend2.gameApi.model.Post;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,6 +65,7 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
         System.out.println("Poster: "+posts);
 
         game.setPostCounter(0);
+        SingletonApp.getData().activeGameId = game.getId();
 
         FindPostFrag fragment = new FindPostFrag();
         Bundle args = new Bundle();

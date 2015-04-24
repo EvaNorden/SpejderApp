@@ -1,31 +1,22 @@
 package eva.spejder;
 
-
-import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.Button;
 
-import com.eva.backend.gameApi.model.Game;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.maps.CameraUpdate;
+import com.eva.backend2.gameApi.model.Game;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import eva.spejderapp.MainAct;
 import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
@@ -33,8 +24,9 @@ import eva.spejderapp.SingletonApp;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FindPostFrag extends Fragment {
+public class FindPostFrag extends Fragment implements View.OnClickListener {
     private View rod;
+    private Button skip;
     private GoogleMap map;
     private MapView mapView;
     private LatLng HAMBURG = new LatLng(53.558, 9.927);
@@ -50,10 +42,14 @@ public class FindPostFrag extends Fragment {
         // Inflate the layout for this fragment
         rod = inflater.inflate(R.layout.find_post_frag, container, false);
 
+        skip = (Button)rod.findViewById(R.id.skip);
+        skip.setOnClickListener(this);
+
         if (getArguments() != null) {
             int index = getArguments().getInt("gameIndex");
             game = SingletonApp.getData().scoutGames.get(index);
-            postPosition = new LatLng(game.getPosts().get(0).getLatitude(), game.getPosts().get(0).getLongitude());
+            int postNo = game.getPostCounter();
+            postPosition = new LatLng(game.getPosts().get(postNo).getLatitude(), game.getPosts().get(postNo).getLongitude());
         }
 
         mapView = (MapView) rod.findViewById(R.id.map);
@@ -65,7 +61,7 @@ public class FindPostFrag extends Fragment {
         map = mapView.getMap();
 
         Marker post = map.addMarker(new MarkerOptions().position(postPosition)
-                .title(""+game.getPosts().get(0).getNumber()));
+                .title("" + game.getPosts().get(0).getNumber()));
 
         // Move the camera instantly to hamburg with a zoom of 15.
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(postPosition, 10));
@@ -74,6 +70,21 @@ public class FindPostFrag extends Fragment {
         map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
         return rod;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v==skip){
+            SolvePostFrag fragment = new SolvePostFrag();
+            Bundle args = new Bundle();
+            args.putInt("gameIndex",SingletonApp.getData().scoutGames.indexOf(game));
+            fragment.setArguments(args);
+            getFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(R.id.main, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
     }
 
     @Override

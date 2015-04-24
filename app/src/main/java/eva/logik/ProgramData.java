@@ -1,6 +1,6 @@
 package eva.logik;
 
-import com.eva.backend.gameApi.model.Game;
+import com.eva.backend2.gameApi.model.Game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,4 +17,6 @@ public class ProgramData extends com.google.api.client.json.GenericJson {
     // Spejder data
     @com.google.api.client.util.Key
     public List<Game> scoutGames = new ArrayList<Game>();
+    @com.google.api.client.util.Key
+    public Long activeGameId = 0L;
 }

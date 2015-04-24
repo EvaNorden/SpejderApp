@@ -10,10 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.eva.backend.gameApi.model.Game;
-import com.eva.backend.gameApi.model.Post;
-import com.eva.backend.solutionApi.SolutionApi;
-import com.eva.backend.solutionApi.model.Solution;
+import com.eva.backend2.gameApi.model.Game;
+import com.eva.backend2.gameApi.model.Post;
+import com.eva.backend2.messaging.Messaging;
+import com.eva.backend2.solutionApi.SolutionApi;
+import com.eva.backend2.solutionApi.model.Solution;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 
@@ -48,7 +49,7 @@ public class SolvePostFrag extends Fragment implements View.OnClickListener {
         send = (Button)view.findViewById(R.id.sendButton);
         solution = (EditText)view.findViewById(R.id.solution);
         headline = (TextView)view.findViewById(R.id.headline);
-        postdescription = (TextView)view.findViewById(R.id.postDescription);
+        postdescription = (TextView)view.findViewById(R.id.description);
 
         send.setOnClickListener(this);
 
@@ -71,6 +72,7 @@ public class SolvePostFrag extends Fragment implements View.OnClickListener {
         postSolution.setGameId(game.getId());
         postSolution.setPostNumber(post.getNumber());
         postSolution.setMessage(solution.getText().toString());
+        postSolution.setApproved(0);
 
         new AsyncTask<Void, Void, Void>(){
             @Override
