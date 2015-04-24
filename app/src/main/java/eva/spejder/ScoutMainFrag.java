@@ -12,8 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.eva.backend.gameApi.model.Game;
+import com.eva.backend.gameApi.model.Post;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import eva.spejderapp.R;
@@ -44,12 +47,25 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
         new ListEndpointsAsyncTask(this).execute();
 
         return rod;
-
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //Sorting Post list
+        Game game = SingletonApp.getData().scoutGames.get(position);
+        List<Post> posts = game.getPosts();
+        System.out.println("Poster: "+posts);
+        Collections.sort(posts, new Comparator<Post>() {
+            @Override
+            public int compare(Post post1, Post post2) {
+                return post1.getNumber().compareTo(post2.getNumber());
+            }
+        });
+        System.out.println("Poster: "+posts);
+
+        game.setPostCounter(0);
+
         FindPostFrag fragment = new FindPostFrag();
         Bundle args = new Bundle();
         args.putInt("gameIndex",position);

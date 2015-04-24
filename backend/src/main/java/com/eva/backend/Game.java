@@ -12,10 +12,11 @@ import com.googlecode.objectify.annotation.Id;
 @Entity
 public class Game implements Serializable {
     @Id
-    Long id;
+    private Long id;
     private String name;
     private ArrayList<Post> posts;
     private int difficultyLevel;
+    private int postCounter;
 
     public Game(){}
 
@@ -49,5 +50,13 @@ public class Game implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getPostCounter() {
+        return postCounter;
+    }
+
+    public void setPostCounter(int postCounter) {
+        this.postCounter = postCounter;
     }
 }

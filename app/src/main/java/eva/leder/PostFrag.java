@@ -134,6 +134,7 @@ public class PostFrag extends Fragment implements View.OnClickListener {
                             post.setLongitude(0.0);
                             post.setLatitude(0.0);
                             dialog.dismiss();
+                            // Nej valgt --> tilbage trykket --> Crash => måske grundet post oprettet men intet gemt i den
                         }
                     });
 
@@ -142,18 +143,22 @@ public class PostFrag extends Fragment implements View.OnClickListener {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             System.out.println("Adresse korrekt");
+                            post.setName(postName.getText().toString());
+                            post.setDescription(postContent.getText().toString());
+                            post.setNumber(Integer.parseInt(postNr.getText().toString()));
+                            getActivity().onBackPressed();
                         }
                     });
             builderSingle.show();
 
-            if (!(post.getLocation().equals(""))) {
+            /*if (!(post.getLocation().equals(""))) {
                 post.setName(postName.getText().toString());
                 post.setDescription(postContent.getText().toString());
                 post.setNumber(Integer.parseInt(postNr.getText().toString()));
                 //post.setLocation(postLocation.getText().toString());
 
                 getActivity().onBackPressed();
-            }
+            }*/
         }
     }
 }
