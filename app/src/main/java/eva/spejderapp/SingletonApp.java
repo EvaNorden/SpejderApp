@@ -32,8 +32,8 @@ public class SingletonApp extends Application {
         String j1 = null;
         try {
             j1 = factory.toString(data);
-            System.out.println(j1);
             prefs.edit().putString("data",j1).commit();
+            System.out.println("Data gemt: "+j1);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -53,14 +53,19 @@ public class SolvePostFrag extends Fragment implements View.OnClickListener {
 
         send.setOnClickListener(this);
 
-        if (getArguments() != null){
-            int index = getArguments().getInt("gameIndex");
-            game = SingletonApp.getData().scoutGames.get(index);
-            post = game.getPosts().get(game.getPostCounter());
-
-            headline.setText("Post "+post.getNumber()+": "+post.getName());
-            postdescription.setText(post.getDescription());
+        if (getArguments() != null) {
+            if (getArguments().containsKey("solutionIndex")) {
+                int i = getArguments().getInt("solutionIndex", 2000);
+                Solution solution = SingletonApp.getData().solutions.get(i);
+                // P.T. bruges Solution ikke til noget i denne klasse
+            }
         }
+
+        game = SingletonApp.getData().activeGame;
+        post = game.getPosts().get(game.getPostCounter());
+
+        headline.setText("Post " + post.getNumber() + ": " + post.getName());
+        postdescription.setText(post.getDescription());
 
         return view;
     }

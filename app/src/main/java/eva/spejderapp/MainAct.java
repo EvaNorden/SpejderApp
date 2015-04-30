@@ -2,12 +2,16 @@ package eva.spejderapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import eva.leder.CheckPostFrag;
 import eva.leder.LeaderMainFrag;
+import eva.spejder.FindPostFrag;
 import eva.spejder.ScoutMainFrag;
+import eva.spejder.SolvePostFrag;
 
 public class MainAct extends Activity implements DialogInterface.OnClickListener, Runnable {
     private final String[] items = {"Spejder", "Leder"};
@@ -16,7 +20,40 @@ public class MainAct extends Activity implements DialogInterface.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_act);
-        if (savedInstanceState == null) {
+        if (getIntent().getAction().equals("check_post")) {
+            int index = getIntent().getIntExtra("solutionIndex",1000);
+            System.out.println("løs Er dette 1000: "+index);
+            CheckPostFrag fragment = new CheckPostFrag();
+            Bundle args = new Bundle();
+            args.putInt("solutionIndex", index);
+            fragment.setArguments(args);
+            getFragmentManager().beginTransaction()
+                    .add(R.id.main, fragment)
+                    .commit(); // Finde en bedre måde at starte notifikationsfragmenter
+        } else if (getIntent().getAction().equals("same_post")) {
+            int index = getIntent().getIntExtra("solutionIndex",1000);
+            SolvePostFrag fragment = new SolvePostFrag();
+            Bundle args = new Bundle();
+            args.putInt("solutionIndex", index);
+            fragment.setArguments(args);
+            getFragmentManager().beginTransaction()
+                    .add(R.id.main, fragment)
+                    .commit(); // Finde en bedre måde at starte notifikationsfragmenter
+        } else if (getIntent().getAction().equals("next_post")) {
+            int index = getIntent().getIntExtra("solutionIndex",1000);
+            FindPostFrag fragment = new FindPostFrag();
+            Bundle args = new Bundle();
+            args.putInt("solutionIndex", index);
+            fragment.setArguments(args);
+            getFragmentManager().beginTransaction()
+                    .add(R.id.main, fragment)
+                    .commit(); // Finde en bedre måde at starte notifikationsfragmenter
+        } else if (getIntent().getAction().equals("game_over")){
+            ScoutMainFrag fragment = new ScoutMainFrag();
+            getFragmentManager().beginTransaction()
+                    .add(R.id.main, fragment)
+                    .commit(); // Finde en bedre måde at starte notifikationsfragmenter
+        } else if (savedInstanceState == null) {
             String type = SingletonApp.prefs.getString("type", "null");
             type = "null";
             if (type.equals("null")) {

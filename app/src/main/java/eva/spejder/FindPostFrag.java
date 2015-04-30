@@ -42,15 +42,13 @@ public class FindPostFrag extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         rod = inflater.inflate(R.layout.find_post_frag, container, false);
 
-        skip = (Button)rod.findViewById(R.id.skip);
+        skip = (Button) rod.findViewById(R.id.skip);
         skip.setOnClickListener(this);
 
-        if (getArguments() != null) {
-            int index = getArguments().getInt("gameIndex");
-            game = SingletonApp.getData().scoutGames.get(index);
-            int postNo = game.getPostCounter();
-            postPosition = new LatLng(game.getPosts().get(postNo).getLatitude(), game.getPosts().get(postNo).getLongitude());
-        }
+        game = SingletonApp.getData().activeGame;
+        int postNo = game.getPostCounter();
+        postPosition = new LatLng(game.getPosts().get(postNo).getLatitude(), game.getPosts().get(postNo).getLongitude());
+
 
         mapView = (MapView) rod.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -74,11 +72,11 @@ public class FindPostFrag extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v==skip){
+        if (v == skip) {
             SolvePostFrag fragment = new SolvePostFrag();
-            Bundle args = new Bundle();
-            args.putInt("gameIndex",SingletonApp.getData().scoutGames.indexOf(game));
-            fragment.setArguments(args);
+            //Bundle args = new Bundle();
+            //args.putInt("gameIndex", SingletonApp.getData().scoutGames.indexOf(game));
+            //fragment.setArguments(args);
             getFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(R.id.main, fragment)

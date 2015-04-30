@@ -110,6 +110,13 @@ public class SolutionEndpoint {
         checkExists(id);
         ofy().save().entity(solution).now();
         logger.info("Updated Solution: " + solution);
+
+        try {
+            new MessagingEndpoint().sendMessage(""+solution.getId());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return ofy().load().entity(solution).now();
     }
 

@@ -76,7 +76,7 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
                     .replace(R.id.main, fragment)
                     .addToBackStack(null)
                     .commit();
-        } else if (v == startGame) {
+        } else if (v == startGame) { // if games are up register GCM once
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
             builderSingle.setIcon(R.drawable.ic_launcher);
             builderSingle.setTitle("Vælg et løb:");
@@ -109,7 +109,7 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
                         }
                     });
             builderSingle.show();
-        } else if (v == endGame) {
+        } else if (v == endGame) { // if all games are down unregister GCM
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
             builderSingle.setIcon(R.drawable.ic_launcher);
             builderSingle.setTitle("Vælg et løb:");

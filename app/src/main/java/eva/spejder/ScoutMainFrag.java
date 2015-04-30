@@ -65,12 +65,12 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
         System.out.println("Poster: "+posts);
 
         game.setPostCounter(0);
-        SingletonApp.getData().activeGameId = game.getId();
+        SingletonApp.getData().activeGame = game;
+        SingletonApp.gemData();
+
+        // register GCM
 
         FindPostFrag fragment = new FindPostFrag();
-        Bundle args = new Bundle();
-        args.putInt("gameIndex",position);
-        fragment.setArguments(args);
         getFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.main, fragment)
