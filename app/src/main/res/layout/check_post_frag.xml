@@ -1,29 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="eva.leder.CheckPostFrag">
-
-    <TextView
-        android:id="@+id/headline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center_horizontal"
-        android:text="Tjek Post 1"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="eva.leder.CheckPostFrag">
 
     <TextView
         android:id="@+id/solution"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="..."
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/textView8"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView8"
+        android:text="..."
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
         android:id="@+id/approved"
@@ -31,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/solution"
+        android:layout_alignParentTop="true"
         android:text="Godkend" />
 
     <Button
@@ -42,8 +35,7 @@
         android:layout_toEndOf="@+id/approved"
         android:layout_toRightOf="@+id/approved"
         android:text="Hint"
-        android:visibility="gone"/>
-    <!--Hint kan implementeres som del af Solution class og vises i notifikation-->
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/denied"
@@ -55,34 +47,44 @@
         android:text="Afvis" />
 
     <TextView
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Beskrivelse:"
-        android:id="@+id/textView6"
-        android:layout_below="@+id/headline"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp" />
+        android:layout_below="@+id/approved"
+        android:text="Beskrivelse:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="..."
         android:id="@+id/description"
-        android:layout_below="@+id/textView6"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Løsning:"
-        android:id="@+id/textView8"
-        android:layout_below="@+id/description"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView6"
+        android:text="..."
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/description"
+        android:text="Løsning:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/solution" />
 
 </RelativeLayout>

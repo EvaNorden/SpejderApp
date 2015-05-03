@@ -6,10 +6,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="eva.spejder.ScoutMainFrag">
+    tools:context="eva.spejder.FindPostFrag">
 
-    <ListView
-        android:id="@+id/availableGames"
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/skip" />
+
+    <Button
+        android:id="@+id/skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -17,6 +23,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:text="Skip find posten" />
 
 </RelativeLayout>

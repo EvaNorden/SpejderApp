@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="eva.spejderapp" >
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <!-- Giver adgang til internet til hentning af maps fra Google Maps server. -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -41,7 +43,7 @@
     <application
         android:name=".SingletonApp"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/kfum_mork_trans1"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data
@@ -56,10 +58,14 @@
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="eva.spejderapp" />
             </intent-filter>
         </receiver>
+
         <service android:name=".GcmIntentService" />
+
+        <service android:name="eva.spejder.GeofenceTransitionsIntentService" />
 
         <activity
             android:name=".MainAct"
@@ -70,6 +76,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".MyContentProvider"
+            android:authorities="eva.spejderapp.MyContentProvider"
+            android:enabled="true"
+            android:exported="true" >
+        </provider>
     </application>
 
 </manifest>

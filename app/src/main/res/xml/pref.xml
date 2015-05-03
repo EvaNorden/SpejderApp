@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Generelle instillinger">
+
+        <ListPreference
+            android:key="type"
+            android:title="Brugertype"
+            android:entries="@array/type"
+            android:entryValues="@array/type"
+            android:dialogTitle="Vælg" />
+
+        <CheckBoxPreference
+            android:key="sound"
+            android:title="Lyd"
+            android:summary="Afspil lyd ved notifikationer" />
+
+        <CheckBoxPreference
+            android:key="vibration"
+            android:title="Vibration"
+            android:summary="Vibrer ved notifikationer" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

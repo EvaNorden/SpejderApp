@@ -1,7 +1,5 @@
 package com.eva.backend2;
 
-import com.googlecode.objectify.annotation.Entity;
-
 import java.io.Serializable;
 
 /**
@@ -15,7 +13,8 @@ public class Post implements Serializable {
     private double longitude;
     private String location;
 
-    public Post() {}
+    public Post() {
+    }
 
     public String getName() {
         return name;

@@ -84,7 +84,7 @@ public class SolutionEndpoint {
         ofy().save().entity(solution).now();
         logger.info("Created Solution with ID: " + solution.getId());
         try {
-            new MessagingEndpoint().sendMessage(""+solution.getId());
+            new MessagingEndpoint().sendMessage("" + solution.getId());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -112,7 +112,7 @@ public class SolutionEndpoint {
         logger.info("Updated Solution: " + solution);
 
         try {
-            new MessagingEndpoint().sendMessage(""+solution.getId());
+            new MessagingEndpoint().sendMessage("" + solution.getId());
         } catch (IOException e) {
             e.printStackTrace();
         }

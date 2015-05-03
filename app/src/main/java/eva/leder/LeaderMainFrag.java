@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.eva.backend2.gameApi.GameApi;
 import com.eva.backend2.gameApi.model.Game;
 import com.eva.backend2.gameApi.model.Post;
+import com.eva.backend2.solutionApi.model.Solution;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import eva.spejderapp.MainAct;
 import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
@@ -46,7 +53,7 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
 
         gameNames = new ArrayList<String>();
         for (Game game : SingletonApp.getData().games) {
-            if (game.getName()!=null) {
+            if (game.getName() != null) {
                 gameNames.add(game.getName());
             } else {
                 SingletonApp.getData().games.remove(game);
@@ -57,6 +64,8 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
 
         gameList.setOnItemClickListener(this);
         gameList.setAdapter(adapter);
+
+        ((MainAct) getActivity()).getSupportActionBar().setTitle("Leder Menu");
 
         return rod;
     }
@@ -78,7 +87,7 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
                     .commit();
         } else if (v == startGame) { // if games are up register GCM once
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
-            builderSingle.setIcon(R.drawable.ic_launcher);
+            builderSingle.setIcon(R.drawable.kfum_mork_trans1);
             builderSingle.setTitle("Vælg et løb:");
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
                     android.R.layout.select_dialog_singlechoice);
@@ -104,14 +113,14 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            new UpEndpointsAsyncTask(getActivity(), gamesForUpload.get(which)).execute();
+                            upEndpointsAsyncTask(gamesForUpload.get(which));
                             SingletonApp.getData().onlineGames.add(gamesForUpload.get(which));
                         }
                     });
             builderSingle.show();
-        } else if (v == endGame) { // if all games are down unregister GCM
+        } else if (v == endGame) {
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
-            builderSingle.setIcon(R.drawable.ic_launcher);
+            builderSingle.setIcon(R.drawable.kfum_mork_trans1);
             builderSingle.setTitle("Vælg et løb:");
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
                     android.R.layout.select_dialog_singlechoice);
@@ -131,9 +140,11 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            new DownEndpointsAsyncTask(getActivity(), SingletonApp.getData().onlineGames.get(which)).execute();
+                            downEndpointsAsyncTask(SingletonApp.getData().onlineGames.get(which));
                             SingletonApp.getData().onlineGames.remove(which);
-                            SingletonApp.gemData();
+                            if (SingletonApp.getData().onlineGames.size() == 0) {
+                                SingletonApp.getData().solutions = new ArrayList<Solution>();
+                            }
                         }
                     });
             builderSingle.show();
@@ -152,5 +163,54 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
                 .replace(R.id.main, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    private void downEndpointsAsyncTask(final Game g) {
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                GameApi.Builder builder = new GameApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+                        .setRootUrl("https://teak-blueprint-89907.appspot.com/_ah/api/");
+
+                try {
+                    System.out.println("ID: " + g.getId());
+                    builder.build().remove(g.getId()).execute();
+                    return true;
+                } catch (IOException e) {
+                    System.out.println(e);
+                    return false;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                System.out.println("Game removed from server: " + result);
+            }
+        }.execute();
+    }
+
+    private void upEndpointsAsyncTask(final Game gg) {
+        new AsyncTask<Void, Void, Game>() {
+            @Override
+            protected Game doInBackground(Void... params) {
+                GameApi.Builder builder = new GameApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+                        .setRootUrl("https://teak-blueprint-89907.appspot.com/_ah/api/");
+
+                try {
+                    Game g = builder.build().insert(gg).execute();
+                    Long id = g.getId();
+                    gg.setId(id);
+                    return g;
+                } catch (IOException e) {
+                    System.out.println(e);
+                    return new Game();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Game result) {
+                System.out.println("Game put up: " + result.getName() + " ID: " + result.getId());
+            }
+        }.execute();
     }
 }

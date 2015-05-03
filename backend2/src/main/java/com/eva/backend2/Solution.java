@@ -1,5 +1,6 @@
 package com.eva.backend2;
 
+import com.google.appengine.api.datastore.Blob;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -14,6 +15,7 @@ public class Solution {
     private Long gameId;
     private int postNumber;
     private int approved; // 0 => ikke gennemset, 1 => ikke godkendt, 2 => godkendt
+    private Blob image;
 
     public Long getId() {
         return id;
@@ -53,5 +55,13 @@ public class Solution {
 
     public void setApproved(int approved) {
         this.approved = approved;
+    }
+
+    public Blob getImage() {
+        return image;
+    }
+
+    public void setImage(Blob image) {
+        this.image = image;
     }
 }

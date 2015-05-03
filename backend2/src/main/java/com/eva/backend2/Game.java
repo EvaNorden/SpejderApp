@@ -4,7 +4,6 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +18,8 @@ public class Game implements Serializable {
     private int difficultyLevel;
     private int postCounter;
 
-    public Game(){}
+    public Game() {
+    }
 
     public String getName() {
         return name;

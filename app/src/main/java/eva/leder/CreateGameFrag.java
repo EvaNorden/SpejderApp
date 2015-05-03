@@ -1,7 +1,10 @@
 package eva.leder;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +17,17 @@ import android.widget.ListView;
 
 import com.eva.backend2.gameApi.model.Game;
 import com.eva.backend2.gameApi.model.Post;
+import com.eva.backend2.solutionApi.model.Solution;
 
 import java.util.ArrayList;
 
+import eva.spejderapp.MainAct;
 import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
-
 public class CreateGameFrag extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     ArrayList<String> postNames;
-    private View rod;
+    private View view;
     private EditText gameName;
     private Button addPost, diffLevel, saveGame, eraseGame;
     private Game game;
@@ -35,14 +39,14 @@ public class CreateGameFrag extends Fragment implements View.OnClickListener, Ad
 
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
-        rod = i.inflate(R.layout.create_game_frag, container, false);
+        view = i.inflate(R.layout.create_game_frag, container, false);
 
-        gameName = (EditText) rod.findViewById(R.id.gameName);
-        addPost = (Button) rod.findViewById(R.id.addPost);
-        diffLevel = (Button) rod.findViewById(R.id.difficultyLevel);
-        saveGame = (Button) rod.findViewById(R.id.saveGame);
-        postList = (ListView) rod.findViewById(R.id.postList);
-        eraseGame = (Button) rod.findViewById(R.id.eraseGame);
+        gameName = (EditText) view.findViewById(R.id.gameName);
+        addPost = (Button) view.findViewById(R.id.addPost);
+        diffLevel = (Button) view.findViewById(R.id.difficultyLevel);
+        saveGame = (Button) view.findViewById(R.id.saveGame);
+        postList = (ListView) view.findViewById(R.id.postList);
+        eraseGame = (Button) view.findViewById(R.id.eraseGame);
 
         addPost.setOnClickListener(this);
         diffLevel.setOnClickListener(this);
@@ -68,7 +72,9 @@ public class CreateGameFrag extends Fragment implements View.OnClickListener, Ad
             postList.setAdapter(adapter);
         }
 
-        return rod;
+        ((MainAct) getActivity()).getSupportActionBar().setTitle("Løb");
+
+        return view;
     }
 
     @Override
@@ -84,14 +90,37 @@ public class CreateGameFrag extends Fragment implements View.OnClickListener, Ad
                     .addToBackStack(null)
                     .commit();
         } else if (v == diffLevel) {
-            // show list of difficulties
+            AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+            builderSingle.setIcon(R.drawable.kfum_mork_trans1);
+            builderSingle.setTitle("Vælg hvor svært det skal være at finde posterne:");
+            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.select_dialog_singlechoice);
+            arrayAdapter.add("Kort med markør");
+            arrayAdapter.add("Adresse");
+            arrayAdapter.add("GPS-koordinater");
+            arrayAdapter.add("Retning og afstand");
+
+            builderSingle.setNegativeButton("cancel",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            builderSingle.setAdapter(arrayAdapter,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            game.setDifficultyLevel(which);
+                        }
+                    });
+            builderSingle.show();
         } else if (v == saveGame) {
             game.setName(gameName.getText().toString());
-            SingletonApp.gemData();
             getActivity().onBackPressed();
-        } else if (v==eraseGame) {
+        } else if (v == eraseGame) {
             SingletonApp.getData().games.remove(game);
-            SingletonApp.gemData();
             getActivity().onBackPressed();
         }
     }
