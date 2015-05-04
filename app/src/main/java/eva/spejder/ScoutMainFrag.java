@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.eva.backend2.gameApi.GameApi;
 import com.eva.backend2.gameApi.model.Game;
@@ -60,6 +61,16 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
         games = (ListView) rod.findViewById(R.id.availableGames);
 
         games.setOnItemClickListener(this);
+
+        if (SingletonApp.prefs.getBoolean("need_help",true)) {
+            games.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(getActivity(), "Tryk på et løb for at starte det", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+            });
+        }
 
         if (savedInstanceState == null) {
             listEndpointsAsyncTask();

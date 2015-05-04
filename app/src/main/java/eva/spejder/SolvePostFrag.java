@@ -37,7 +37,7 @@ import eva.spejderapp.SingletonApp;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SolvePostFrag extends Fragment implements View.OnClickListener {
+public class SolvePostFrag extends Fragment implements View.OnClickListener, View.OnLongClickListener {
     private View view;
     private Button send, image;
     private EditText solution;
@@ -65,6 +65,11 @@ public class SolvePostFrag extends Fragment implements View.OnClickListener {
         send.setOnClickListener(this);
         image.setOnClickListener(this);
 
+        if (SingletonApp.prefs.getBoolean("need_help",true)) {
+            send.setOnLongClickListener(this);
+            image.setOnLongClickListener(this);
+        }
+
         postSolution = SingletonApp.getData().solution;
 
         game = SingletonApp.getData().activeGame;
@@ -76,6 +81,14 @@ public class SolvePostFrag extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    @Override
+    public boolean onLongClick(View v) {
+        if (v == image)
+            Toast.makeText(getActivity(), "Tryk her for at tage et billede som bliver sendt med post-løsningen", Toast.LENGTH_LONG).show();
+        else if (v == send)
+            Toast.makeText(getActivity(), "Tryk her for at sende din post-løsning til godkendelse", Toast.LENGTH_LONG).show();
+        return true;
+    }
 
     @Override
     public void onClick(View v) {

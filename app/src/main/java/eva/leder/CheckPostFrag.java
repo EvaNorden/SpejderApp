@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eva.backend2.gameApi.model.Game;
 import com.eva.backend2.gameApi.model.Post;
@@ -31,7 +32,7 @@ import eva.spejderapp.SingletonApp;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CheckPostFrag extends Fragment implements View.OnClickListener {
+public class CheckPostFrag extends Fragment implements View.OnClickListener, View.OnLongClickListener {
     private View view;
     private Solution solution;
     private Game game;
@@ -49,14 +50,20 @@ public class CheckPostFrag extends Fragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.check_post_frag, container, false);
 
         denied = (Button) view.findViewById(R.id.denied);
-        denied.setOnClickListener(this);
         approved = (Button) view.findViewById(R.id.approved);
+
+        denied.setOnClickListener(this);
         approved.setOnClickListener(this);
 
         imageView = (ImageView) view.findViewById(R.id.imageView);
 
         description = (TextView) view.findViewById(R.id.description);
         solutionTV = (TextView) view.findViewById(R.id.solution);
+
+        if (SingletonApp.prefs.getBoolean("need_help",true)) {
+            denied.setOnLongClickListener(this);
+            approved.setOnLongClickListener(this);
+        }
 
         if (getArguments() != null) {
             int i = getArguments().getInt("solutionIndex", -1);
@@ -89,6 +96,16 @@ public class CheckPostFrag extends Fragment implements View.OnClickListener {
         }
 
         return view;
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        if (v == denied)
+            Toast.makeText(getActivity(), "Tryk her for at afvise løsningen, så deltageren skal sende en ny løsning", Toast.LENGTH_LONG).show();
+        else if (v == approved)
+            Toast.makeText(getActivity(), "Tryk her for at godkende løsningen, så deltageren kan starte næste post", Toast.LENGTH_LONG).show();
+
+        return true;
     }
 
     @Override

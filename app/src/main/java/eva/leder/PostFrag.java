@@ -28,10 +28,10 @@ import eva.spejderapp.SingletonApp;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PostFrag extends Fragment implements View.OnClickListener {
+public class PostFrag extends Fragment implements View.OnClickListener, View.OnLongClickListener {
     private View rod;
     private EditText postName, postNr, postContent, postLocation;
-    private Button postImage, savePost, erasePost;
+    private Button savePost, erasePost;
     private Game game;
     private Post post;
 
@@ -47,11 +47,9 @@ public class PostFrag extends Fragment implements View.OnClickListener {
         postNr = (EditText) rod.findViewById(R.id.postNumber);
         postContent = (EditText) rod.findViewById(R.id.postDescription);
         postLocation = (EditText) rod.findViewById(R.id.postLocation);
-        postImage = (Button) rod.findViewById(R.id.postImage);
         savePost = (Button) rod.findViewById(R.id.savePost);
         erasePost = (Button) rod.findViewById(R.id.erasePost);
 
-        postImage.setOnClickListener(this);
         savePost.setOnClickListener(this);
         erasePost.setOnClickListener(this);
 
@@ -69,16 +67,28 @@ public class PostFrag extends Fragment implements View.OnClickListener {
             }
         }
 
+        if (SingletonApp.prefs.getBoolean("need_help",true)) {
+            savePost.setOnLongClickListener(this);
+            erasePost.setOnLongClickListener(this);
+        }
+
         ((MainAct) getActivity()).getSupportActionBar().setTitle("Post");
 
         return rod;
     }
 
     @Override
+    public boolean onLongClick(View v) {
+        if (v == savePost)
+            Toast.makeText(getActivity(), "Tryk her for at gemme en post i dit løb", Toast.LENGTH_LONG).show();
+        else if (v == erasePost)
+            Toast.makeText(getActivity(), "Tryk her for at slette en post fra dit løb", Toast.LENGTH_LONG).show();
+        return true;
+    }
+
+    @Override
     public void onClick(View v) {
-        if (v == postImage) {
-            // kommer senere
-        } else if (v == savePost) {
+        if (v == savePost) {
             Boolean sameNo = false;
             for (Post p : game.getPosts()) {
                 if (p.getNumber().equals(Integer.parseInt(postNr.getText().toString())) && p != post) {

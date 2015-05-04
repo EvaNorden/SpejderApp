@@ -94,7 +94,7 @@ public class GcmIntentService extends IntentService {
                             noti("check_post", "En post er løst", "Tjek løsningen nu", 0);
                         }
                     }
-                } else if (sol.getGameId().equals(SingletonApp.getData().activeGame.getId())) {
+                } else if (SingletonApp.getData().activeGame != null && sol.getGameId().equals(SingletonApp.getData().activeGame.getId())) {
                     if (sol.getApproved() == 1) {
                         SingletonApp.getData().solution = sol;
                         // Notifikation: "Ikke godkendt" --> starte SolvePostFrag igen med samme post

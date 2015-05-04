@@ -11,6 +11,7 @@ import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -87,6 +88,9 @@ public class MainAct extends ActionBarActivity implements DialogInterface.OnClic
             if (!SingletonApp.prefs.getBoolean("GCM_reg", false)) {
                 System.out.println("Forsøger GCM registrering");
                 new GcmRegistrationAsyncTask(this).execute();
+            }
+            if (SingletonApp.prefs.getBoolean("need_help",true)) {
+                Toast.makeText(this, "Langt tryk på knapper hjælper", Toast.LENGTH_LONG).show();
             }
         }
     }

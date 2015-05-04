@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.eva.backend2.gameApi.model.Game;
 import com.eva.backend2.gameApi.model.Post;
@@ -25,7 +26,7 @@ import eva.spejderapp.MainAct;
 import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
-public class CreateGameFrag extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class GameFrag extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, View.OnLongClickListener {
     ArrayList<String> postNames;
     private View view;
     private EditText gameName;
@@ -33,7 +34,7 @@ public class CreateGameFrag extends Fragment implements View.OnClickListener, Ad
     private Game game;
     private ListView postList;
 
-    public CreateGameFrag() {
+    public GameFrag() {
         // Required empty public constructor
     }
 
@@ -72,9 +73,36 @@ public class CreateGameFrag extends Fragment implements View.OnClickListener, Ad
             postList.setAdapter(adapter);
         }
 
+        if (SingletonApp.prefs.getBoolean("need_help",true)) {
+            postList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(getActivity(), "Tryk på en post for at redigere den", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+            });
+            addPost.setOnLongClickListener(this);
+            diffLevel.setOnLongClickListener(this);
+            saveGame.setOnLongClickListener(this);
+            eraseGame.setOnLongClickListener(this);
+        }
+
         ((MainAct) getActivity()).getSupportActionBar().setTitle("Løb");
 
         return view;
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        if (v == addPost)
+            Toast.makeText(getActivity(), "Tryk her for at tilføje en post til dit løb", Toast.LENGTH_LONG).show();
+        else if (v == diffLevel)
+            Toast.makeText(getActivity(), "Tryk her for at vælge hvor svært det skal være at finde posterne i dit løb", Toast.LENGTH_LONG).show();
+        else if (v == saveGame)
+            Toast.makeText(getActivity(), "Tryk her for at gemme dit løb på telefonen", Toast.LENGTH_LONG).show();
+        else if (v == eraseGame)
+            Toast.makeText(getActivity(), "Tryk her for at slette dit løb fra telefonen", Toast.LENGTH_LONG).show();
+        return true;
     }
 
     @Override
@@ -92,7 +120,7 @@ public class CreateGameFrag extends Fragment implements View.OnClickListener, Ad
         } else if (v == diffLevel) {
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
             builderSingle.setIcon(R.drawable.kfum_mork_trans1);
-            builderSingle.setTitle("Vælg hvor svært det skal være at finde posterne:");
+            builderSingle.setTitle("Find post sværhedsgrad");
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
                     android.R.layout.select_dialog_singlechoice);
             arrayAdapter.add("Kort med markør");

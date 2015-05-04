@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eva.backend2.gameApi.model.Game;
 import com.eva.backend2.gameApi.model.Post;
@@ -101,6 +102,13 @@ public class FindPostFrag extends Fragment implements View.OnClickListener {
 
         skip = (Button) view.findViewById(R.id.skip);
         skip.setOnClickListener(this);
+        skip.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(getActivity(), "Tryk her for at gå videre med løbet uden at finde posten (kun i test version)", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
 
         ((MainAct) getActivity()).getSupportActionBar().setTitle("Find Post " + post.getNumber());
 

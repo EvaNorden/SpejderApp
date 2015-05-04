@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.eva.backend2.gameApi.GameApi;
 import com.eva.backend2.gameApi.model.Game;
@@ -28,7 +29,7 @@ import eva.spejderapp.MainAct;
 import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
-public class LeaderMainFrag extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class LeaderMainFrag extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, View.OnLongClickListener {
     private ArrayList<String> gameNames;
     private View rod;
     private Button newGame, startGame, endGame;
@@ -65,9 +66,33 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
         gameList.setOnItemClickListener(this);
         gameList.setAdapter(adapter);
 
+        if (SingletonApp.prefs.getBoolean("need_help",true)) {
+            gameList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(getActivity(), "Tryk på et løb for at redigere det", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+            });
+            newGame.setOnLongClickListener(this);
+            startGame.setOnLongClickListener(this);
+            endGame.setOnLongClickListener(this);
+        }
+
         ((MainAct) getActivity()).getSupportActionBar().setTitle("Leder Menu");
 
         return rod;
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        if (v == newGame)
+            Toast.makeText(getActivity(), "Tryk her for at oprette et nyt løb der senere kan lægges på nettet", Toast.LENGTH_LONG).show();
+        else if (v == startGame)
+            Toast.makeText(getActivity(), "Tryk her for at vælge et løb der lægges online så andre kan deltage i det", Toast.LENGTH_LONG).show();
+        else if (v == endGame)
+            Toast.makeText(getActivity(), "Tryk her for at vælge et løb der ikke længere skal være tilgængeligt online", Toast.LENGTH_LONG).show();
+        return true;
     }
 
     @Override
@@ -78,7 +103,7 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
             SingletonApp.getData().games.add(g);
             Bundle args = new Bundle();
             args.putInt("gameIndex", SingletonApp.getData().games.indexOf(g));
-            CreateGameFrag fragment = new CreateGameFrag();
+            GameFrag fragment = new GameFrag();
             fragment.setArguments(args);
             getFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -156,7 +181,7 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
         Bundle args = new Bundle();
         args.putInt("gameIndex", position);
         args.putBoolean("oldGame", true);
-        CreateGameFrag fragment = new CreateGameFrag();
+        GameFrag fragment = new GameFrag();
         fragment.setArguments(args);
         getFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -184,7 +209,12 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
 
             @Override
             protected void onPostExecute(Boolean result) {
-                System.out.println("Game removed from server: " + result);
+                if (result) {
+                    System.out.println("Game removed from server: " + result);
+                    Toast.makeText(getActivity(), "Løb offline", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "Fejl. Er du forbundet til internettet?", Toast.LENGTH_LONG).show();
+                }
             }
         }.execute();
     }
@@ -203,13 +233,18 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
                     return g;
                 } catch (IOException e) {
                     System.out.println(e);
-                    return new Game();
+                    return null;
                 }
             }
 
             @Override
             protected void onPostExecute(Game result) {
-                System.out.println("Game put up: " + result.getName() + " ID: " + result.getId());
+                if (result != null) {
+                    System.out.println("Game put up: " + result.getName() + " ID: " + result.getId());
+                    Toast.makeText(getActivity(), "Løb online", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "Fejl. Er du forbundet til internettet?", Toast.LENGTH_LONG).show();
+                }
             }
         }.execute();
     }

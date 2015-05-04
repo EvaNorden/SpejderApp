@@ -22,6 +22,11 @@
             android:title="Vibration"
             android:summary="Vibrer ved notifikationer" />
 
+        <CheckBoxPreference
+            android:key="need_help"
+            android:title="Vis hjælpebeskeder"
+            android:checked="true"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
