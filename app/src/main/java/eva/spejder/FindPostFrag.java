@@ -35,7 +35,9 @@ public class FindPostFrag extends Fragment implements View.OnClickListener {
     private MapView mapView;
     private LatLng postPosition;
 
-    public FindPostFrag() {}
+    public FindPostFrag() {
+        // Required empty public constructor
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
