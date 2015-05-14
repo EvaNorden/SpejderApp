@@ -40,24 +40,14 @@ public class GcmIntentService extends IntentService {
         String messageType = gcm.getMessageType(intent);
 
         if (extras != null && !extras.isEmpty()) {  // has effect of unparcelling Bundle
-            // Since we're not using two way messaging, this is all we really to check for
+            // Since we're not using two way messaging, this is all we really need to check for
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 Logger.getLogger("GCM_RECEIVED").log(Level.INFO, extras.toString());
 
-                showToast(extras.getString("message"));
                 reactOnSolution(extras.getString("message"));
             }
         }
         GcmBroadcastReceiver.completeWakefulIntent(intent);
-    }
-
-    protected void showToast(final String message) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     private void reactOnSolution(String id) {
@@ -81,9 +71,6 @@ public class GcmIntentService extends IntentService {
 
             @Override
             protected void onPostExecute(Solution sol) {
-                //SingletonApp.getData().solutions.add(sol);
-                //solIndex = SingletonApp.getData().solutions.indexOf(sol);
-                //System.out.println("Gemt løsning: " + SingletonApp.getData().solutions.get(solIndex));
                 if (sol.getApproved() == 0) {
                     for (Game g : SingletonApp.getData().onlineGames) {
                         if (sol.getGameId().equals(g.getId())) {
@@ -94,7 +81,8 @@ public class GcmIntentService extends IntentService {
                             noti("check_post", "En post er løst", "Tjek løsningen nu", 0);
                         }
                     }
-                } else if (SingletonApp.getData().activeGame != null && sol.getGameId().equals(SingletonApp.getData().activeGame.getId())) {
+                //} else if (SingletonApp.getData().activeGame != null && sol.getGameId().equals(SingletonApp.getData().activeGame.getId())) {
+                } else if (SingletonApp.getData().solution != null && SingletonApp.getData().solution.getId().equals(sol.getId())) {
                     if (sol.getApproved() == 1) {
                         SingletonApp.getData().solution = sol;
                         // Notifikation: "Ikke godkendt" --> starte SolvePostFrag igen med samme post
@@ -127,8 +115,6 @@ public class GcmIntentService extends IntentService {
                             noti("next_post", "Post godkendt", "Find næste post", 2);
                         }
                     }
-                } else {
-                    //SingletonApp.getData().solutions.remove(sol);
                 }
             }
         }.execute();
@@ -151,12 +137,11 @@ public class GcmIntentService extends IntentService {
                 .setOngoing(true)
                 .setAutoCancel(true).getNotification(); // Deprecated as of API level 16
 
-        if (SingletonApp.prefs.getBoolean("sound",false)){
-            AudioPlayer.play(getApplicationContext(),R.raw.sound);
+        if (SingletonApp.prefs.getBoolean("sound", false)) {
+            AudioPlayer.play(getApplicationContext(), R.raw.sound);
         }
-        if (SingletonApp.prefs.getBoolean("vibration",false)){
-            long[] vibrate = {0, 100, 300, 200, -1};
-            n.vibrate = vibrate;
+        if (SingletonApp.prefs.getBoolean("vibration", false)) {
+            n.vibrate = new long[]{0, 100, 300, 200, -1};
         }
 
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(getApplicationContext().NOTIFICATION_SERVICE);

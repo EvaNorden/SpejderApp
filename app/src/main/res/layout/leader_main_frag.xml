@@ -15,7 +15,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:text="Nyt løb" />
+        android:text="@string/nyt_løb" />
 
     <Button
         android:id="@+id/startGame"
@@ -26,7 +26,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/newGame"
-        android:text="Start løb" />
+        android:text="@string/start_løb" />
 
     <Button
         android:id="@+id/endGame"
@@ -37,7 +37,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/startGame"
-        android:text="Afslut løb" />
+        android:text="@string/afslut_løb" />
 
     <ListView
         android:id="@+id/gameList"

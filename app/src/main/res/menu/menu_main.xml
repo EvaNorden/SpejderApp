@@ -6,11 +6,11 @@
         android:id="@+id/indstillinger"
         android:icon="@android:drawable/ic_menu_preferences"
         app:showAsAction="ifRoom"
-        android:title="Indstillinger"/>
+        android:title="@string/instillinger"/>
     <item
         android:id="@+id/endGame"
         app:showAsAction="withText"
-        android:title="Afslut Løb"
+        android:title="@string/afslut_løb"
         android:visible="false"/>
 
 </menu>

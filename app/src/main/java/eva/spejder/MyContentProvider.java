@@ -1,4 +1,4 @@
-package eva.spejderapp;
+package eva.spejder;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class MyContentProvider extends ContentProvider {
-    public static final Uri URI = Uri.parse("content://eva.spejderapp.MyContentProvider/1");
+    public static final Uri URI = Uri.parse("content://eva.spejder.MyContentProvider/1");
     public static final String FILNAVN = "billede.jpg";
 
     @Override
@@ -54,14 +54,6 @@ public class MyContentProvider extends ContentProvider {
     public void attachInfo(Context context, ProviderInfo info) {
         super.attachInfo(context, info);
         log("attachInfo(" + info.toString());
-
-        // Sanity check our security
-        if (info.exported) {
-            //throw new SecurityException("Provider must not be exported");
-        }
-        if (!info.grantUriPermissions) {
-            //throw new SecurityException("Provider must grant uri permissions");
-        }
     }
 
 

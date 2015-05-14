@@ -1,6 +1,5 @@
 package eva.spejderapp;
 
-
 import android.content.Context;
 import android.media.MediaPlayer;
 

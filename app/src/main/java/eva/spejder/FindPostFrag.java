@@ -2,6 +2,7 @@ package eva.spejder;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,20 +26,14 @@ import eva.spejderapp.MainAct;
 import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FindPostFrag extends Fragment implements View.OnClickListener {
-
-    private View view;
     private Button skip;
     private TextView tv;
-    private GoogleMap map;
     private MapView mapView;
     private LatLng postPosition;
-    Game game;
-    private Post post;
 
     public FindPostFrag() {
         // Required empty public constructor
@@ -46,8 +41,8 @@ public class FindPostFrag extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        game = SingletonApp.getData().activeGame;
-        post = game.getPosts().get(game.getPostCounter());
+        Game game = SingletonApp.getData().activeGame;
+        Post post = game.getPosts().get(game.getPostCounter());
         postPosition = new LatLng(post.getLatitude(), post.getLongitude());
 
         if (savedInstanceState == null) {
@@ -56,6 +51,7 @@ public class FindPostFrag extends Fragment implements View.OnClickListener {
         }
 
         // Inflate the layout for this fragment
+        View view;
         if (game.getDifficultyLevel() == 0 || game.getDifficultyLevel() > 3) {
             view = inflater.inflate(R.layout.find_post_frag_0, container, false);
 
@@ -65,7 +61,7 @@ public class FindPostFrag extends Fragment implements View.OnClickListener {
 
             MapsInitializer.initialize(getActivity());
 
-            map = mapView.getMap();
+            GoogleMap map = mapView.getMap();
             map.addMarker(new MarkerOptions().position(postPosition).title("" + post.getNumber()));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(postPosition, 10));
             map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
@@ -80,23 +76,8 @@ public class FindPostFrag extends Fragment implements View.OnClickListener {
             } else if (game.getDifficultyLevel() == 2) {
                 text = "N " + postPosition.latitude + "\nE " + postPosition.longitude;
             } else if (game.getDifficultyLevel() == 3) {
-                new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        while (SingletonApp.geofenceHelper.getCurrentLocation() == null) ;
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        Location l = SingletonApp.geofenceHelper.getCurrentLocation();
-                        float[] result = new float[2];
-                        Location.distanceBetween(l.getLatitude(), l.getLongitude(), postPosition.latitude, postPosition.longitude, result);
-                        tv.setText("Retning: " + String.format("%.1f", result[1]) + " grader\nAfstand: " + String.format("%.1f", result[0]) + " m");
-                    }
-                }.execute();
+                placementUpdate();
             }
-
             tv.setText(text);
         }
 
@@ -126,6 +107,36 @@ public class FindPostFrag extends Fragment implements View.OnClickListener {
                     .addToBackStack(null)
                     .commit();
         }
+    }
+
+    private void placementUpdate(){
+        new AsyncTask<Void, Void, Void>() {
+            ProgressDialog dialog = new ProgressDialog(getActivity());
+
+            @Override
+            protected void onPreExecute() {
+                dialog.setIndeterminate(true); // drejende hjul
+                dialog.setTitle("Venter på placering");
+                dialog.setIcon(R.drawable.kfum_mork_trans1);
+                dialog.setCancelable(false);
+                dialog.show();
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                while (SingletonApp.geofenceHelper.getCurrentLocation() == null);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                dialog.dismiss();
+                Location l = SingletonApp.geofenceHelper.getCurrentLocation();
+                float[] result = new float[2];
+                Location.distanceBetween(l.getLatitude(), l.getLongitude(), postPosition.latitude, postPosition.longitude, result);
+                tv.setText("Retning: " + String.format("%.1f", result[1]) + " grader\nAfstand: " + String.format("%.1f", result[0]) + " m");
+            }
+        }.execute();
     }
 
     @Override

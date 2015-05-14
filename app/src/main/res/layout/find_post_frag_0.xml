@@ -23,6 +23,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:text="Skip find posten" />
+        android:text="@string/skip_find_posten" />
 
 </RelativeLayout>

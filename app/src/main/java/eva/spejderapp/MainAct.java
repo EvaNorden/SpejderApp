@@ -13,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import eva.leder.CheckPostFrag;
 import eva.leder.LeaderMainFrag;
 import eva.spejder.FindPostFrag;
@@ -89,7 +87,7 @@ public class MainAct extends ActionBarActivity implements DialogInterface.OnClic
                 System.out.println("Forsøger GCM registrering");
                 new GcmRegistrationAsyncTask(this).execute();
             }
-            if (SingletonApp.prefs.getBoolean("need_help",true)) {
+            if (SingletonApp.prefs.getBoolean("need_help", true)) {
                 Toast.makeText(this, "Langt tryk på knapper hjælper", Toast.LENGTH_LONG).show();
             }
         }
@@ -99,7 +97,6 @@ public class MainAct extends ActionBarActivity implements DialogInterface.OnClic
     protected void onPause() {
         super.onPause();
         SingletonApp.gemData();
-
     }
 
     @Override
@@ -149,7 +146,6 @@ public class MainAct extends ActionBarActivity implements DialogInterface.OnClic
                     .replace(R.id.main, new PrefFrag())
                     .addToBackStack(null)
                     .commit();
-
             return true;
         } else if (id == android.R.id.home) {
             Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
@@ -159,9 +155,9 @@ public class MainAct extends ActionBarActivity implements DialogInterface.OnClic
         } else if (id == R.id.endGame) {
             SingletonApp.getData().activeGame = null;
             SingletonApp.geofenceHelper.googleApiClient.disconnect();
-            NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.cancelAll();
-            Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage( getBaseContext().getPackageName() );
+            Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
             return true;

@@ -30,10 +30,7 @@ import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
 public class LeaderMainFrag extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, View.OnLongClickListener {
-    private ArrayList<String> gameNames;
-    private View rod;
     private Button newGame, startGame, endGame;
-    private ListView gameList;
 
     public LeaderMainFrag() {
         // Required empty public constructor
@@ -41,18 +38,18 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
 
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
-        rod = i.inflate(R.layout.leader_main_frag, container, false);
+        View view = i.inflate(R.layout.leader_main_frag, container, false);
 
-        newGame = (Button) rod.findViewById(R.id.newGame);
-        startGame = (Button) rod.findViewById(R.id.startGame);
-        endGame = (Button) rod.findViewById(R.id.endGame);
-        gameList = (ListView) rod.findViewById(R.id.gameList);
+        newGame = (Button) view.findViewById(R.id.newGame);
+        startGame = (Button) view.findViewById(R.id.startGame);
+        endGame = (Button) view.findViewById(R.id.endGame);
+        ListView gameList = (ListView) view.findViewById(R.id.gameList);
 
         newGame.setOnClickListener(this);
         startGame.setOnClickListener(this);
         endGame.setOnClickListener(this);
 
-        gameNames = new ArrayList<String>();
+        ArrayList<String> gameNames = new ArrayList<String>();
         for (Game game : SingletonApp.getData().games) {
             if (game.getName() != null) {
                 gameNames.add(game.getName());
@@ -66,7 +63,7 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
         gameList.setOnItemClickListener(this);
         gameList.setAdapter(adapter);
 
-        if (SingletonApp.prefs.getBoolean("need_help",true)) {
+        if (SingletonApp.prefs.getBoolean("need_help", true)) {
             gameList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -81,7 +78,7 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
 
         ((MainAct) getActivity()).getSupportActionBar().setTitle("Leder Menu");
 
-        return rod;
+        return view;
     }
 
     @Override
@@ -210,7 +207,7 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
             @Override
             protected void onPostExecute(Boolean result) {
                 if (result) {
-                    System.out.println("Game removed from server: " + result);
+                    System.out.println("Game removed from server");
                     Toast.makeText(getActivity(), "Løb offline", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(), "Fejl. Er du forbundet til internettet?", Toast.LENGTH_LONG).show();

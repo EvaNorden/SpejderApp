@@ -8,9 +8,6 @@ import java.util.List;
 
 public class ProgramData extends com.google.api.client.json.GenericJson {
 
-    //@com.google.api.client.util.Key
-    //public ArrayList<Solution> solutions = new ArrayList<Solution>();
-
     // Leder data
     @com.google.api.client.util.Key
     public ArrayList<Game> games = new ArrayList<Game>();

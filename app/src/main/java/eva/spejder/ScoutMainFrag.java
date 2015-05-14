@@ -33,19 +33,16 @@ import eva.spejderapp.SingletonApp;
  * A simple {@link Fragment} subclass.
  */
 public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickListener {
-    private ArrayList<String> gameNames;
-    private View rod;
     private ListView games;
 
     public ScoutMainFrag() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rod = inflater.inflate(R.layout.scout_main_frag, container, false);
+        View view = inflater.inflate(R.layout.scout_main_frag, container, false);
 
         if (SingletonApp.getData().activeGame != null) {
             FindPostFrag fragment = new FindPostFrag();
@@ -53,16 +50,16 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(R.id.main, fragment)
                     .commit(); // If added to backstack you can't go back
-            return rod;
+            return view;
         }
 
         SingletonApp.getData().solution = null;
 
-        games = (ListView) rod.findViewById(R.id.availableGames);
+        games = (ListView) view.findViewById(R.id.availableGames);
 
         games.setOnItemClickListener(this);
 
-        if (SingletonApp.prefs.getBoolean("need_help",true)) {
+        if (SingletonApp.prefs.getBoolean("need_help", true)) {
             games.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -80,7 +77,7 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
 
         ((MainAct) getActivity()).getSupportActionBar().setTitle("Spejder Menu");
 
-        return rod;
+        return view;
     }
 
     @Override
@@ -113,13 +110,14 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
     private void listEndpointsAsyncTask() {
         new AsyncTask<Void, Void, List<Game>>() {
             private ProgressDialog dialog;
+
             @Override
             protected void onPreExecute() {
                 dialog = new ProgressDialog(getActivity());
                 dialog.setIndeterminate(true); // drejende hjul
                 dialog.setTitle("Henter løb");
                 dialog.setIcon(R.drawable.kfum_mork_trans1);
-                dialog.setMessage("Vent venligts");
+                dialog.setMessage("Vent venligst");
                 dialog.setCancelable(false);
                 dialog.show();
             }
@@ -133,7 +131,7 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
                     return builder.build().list().execute().getItems();
                 } catch (IOException e) {
                     System.out.println(e);
-                    return Collections.EMPTY_LIST;
+                    return null;
                 }
             }
 
@@ -148,7 +146,7 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
     }
 
     public void updateGameList(List<Game> result) {
-        gameNames = new ArrayList<String>();
+        ArrayList<String> gameNames = new ArrayList<String>();
         for (Game game : result) {
             gameNames.add(game.getName());
         }

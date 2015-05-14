@@ -78,8 +78,8 @@
         </activity>
 
         <provider
-            android:name=".MyContentProvider"
-            android:authorities="eva.spejderapp.MyContentProvider"
+            android:name="eva.spejder.MyContentProvider"
+            android:authorities="eva.spejder.MyContentProvider"
             android:enabled="true"
             android:exported="true" >
         </provider>

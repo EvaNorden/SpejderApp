@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import com.eva.backend2.gameApi.model.Game;
 import com.eva.backend2.gameApi.model.Post;
-import com.eva.backend2.solutionApi.model.Solution;
 
 import java.util.ArrayList;
 
@@ -28,11 +26,9 @@ import eva.spejderapp.SingletonApp;
 
 public class GameFrag extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, View.OnLongClickListener {
     ArrayList<String> postNames;
-    private View view;
     private EditText gameName;
     private Button addPost, diffLevel, saveGame, eraseGame;
     private Game game;
-    private ListView postList;
 
     public GameFrag() {
         // Required empty public constructor
@@ -40,13 +36,13 @@ public class GameFrag extends Fragment implements View.OnClickListener, AdapterV
 
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
-        view = i.inflate(R.layout.create_game_frag, container, false);
+        View view = i.inflate(R.layout.create_game_frag, container, false);
 
         gameName = (EditText) view.findViewById(R.id.gameName);
         addPost = (Button) view.findViewById(R.id.addPost);
         diffLevel = (Button) view.findViewById(R.id.difficultyLevel);
         saveGame = (Button) view.findViewById(R.id.saveGame);
-        postList = (ListView) view.findViewById(R.id.postList);
+        ListView postList = (ListView) view.findViewById(R.id.postList);
         eraseGame = (Button) view.findViewById(R.id.eraseGame);
 
         addPost.setOnClickListener(this);
@@ -73,7 +69,7 @@ public class GameFrag extends Fragment implements View.OnClickListener, AdapterV
             postList.setAdapter(adapter);
         }
 
-        if (SingletonApp.prefs.getBoolean("need_help",true)) {
+        if (SingletonApp.prefs.getBoolean("need_help", true)) {
             postList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {

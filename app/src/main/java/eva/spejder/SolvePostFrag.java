@@ -30,7 +30,6 @@ import java.io.File;
 import java.io.IOException;
 
 import eva.spejderapp.MainAct;
-import eva.spejderapp.MyContentProvider;
 import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
@@ -38,10 +37,8 @@ import eva.spejderapp.SingletonApp;
  * A simple {@link Fragment} subclass.
  */
 public class SolvePostFrag extends Fragment implements View.OnClickListener, View.OnLongClickListener {
-    private View view;
     private Button send, image;
     private EditText solution;
-    private TextView postdescription;
     private Game game;
     private Post post;
     private Solution postSolution;
@@ -55,17 +52,17 @@ public class SolvePostFrag extends Fragment implements View.OnClickListener, Vie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.solve_post_frag, container, false);
+        View view = inflater.inflate(R.layout.solve_post_frag, container, false);
 
         send = (Button) view.findViewById(R.id.sendButton);
         image = (Button) view.findViewById(R.id.image);
         solution = (EditText) view.findViewById(R.id.solution);
-        postdescription = (TextView) view.findViewById(R.id.description);
+        TextView postdescription = (TextView) view.findViewById(R.id.description);
 
         send.setOnClickListener(this);
         image.setOnClickListener(this);
 
-        if (SingletonApp.prefs.getBoolean("need_help",true)) {
+        if (SingletonApp.prefs.getBoolean("need_help", true)) {
             send.setOnLongClickListener(this);
             image.setOnLongClickListener(this);
         }
@@ -93,12 +90,8 @@ public class SolvePostFrag extends Fragment implements View.OnClickListener, Vie
     @Override
     public void onClick(View v) {
         if (v == image) {
-            //Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            //startActivityForResult(cameraIntent, 1004);
             Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             // Vi vil have billedet gemt i vores content provider:
-            File fil = new File(Environment.getExternalStorageDirectory(), "billede.jpg");
-            //i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fil));
             i.putExtra(MediaStore.EXTRA_OUTPUT, MyContentProvider.URI);
             startActivityForResult(i, 1004);
         } else if (v == send) {
@@ -118,6 +111,8 @@ public class SolvePostFrag extends Fragment implements View.OnClickListener, Vie
                 postSolution.setImage(encodedImage);
             }
 
+            SingletonApp.getData().solution = postSolution;
+
             new AsyncTask<Void, Void, Boolean>() {
                 ProgressDialog dialog = new ProgressDialog(getActivity());
 
@@ -126,7 +121,7 @@ public class SolvePostFrag extends Fragment implements View.OnClickListener, Vie
                     dialog.setIndeterminate(true); // drejende hjul
                     dialog.setTitle("Sender løsning");
                     dialog.setIcon(R.drawable.kfum_mork_trans1);
-                    dialog.setMessage("Vent venligts");
+                    dialog.setMessage("Vent venligst");
                     dialog.setCancelable(false);
                     dialog.show();
                 }

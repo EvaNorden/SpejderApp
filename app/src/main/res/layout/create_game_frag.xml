@@ -16,7 +16,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/gameName"
-        android:text="Tilføj Post" />
+        android:text="@string/tilføj_post" />
 
     <Button
         android:id="@+id/difficultyLevel"
@@ -27,7 +27,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/addPost"
-        android:text="Sværhedsgrad" />
+        android:text="@string/sværhedsgrad" />
 
     <EditText
         android:id="@+id/gameName"
@@ -37,7 +37,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:hint="Løbets navn"
+        android:hint="@string/løbets_navn"
         android:inputType="textCapSentences" />
 
     <LinearLayout
@@ -54,14 +54,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="Gem Løb" />
+            android:text="@string/gem_løb" />
 
         <Button
             android:id="@+id/eraseGame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="Slet Løb" />
+            android:text="@string/slet_løb" />
     </LinearLayout>
 
     <ListView
@@ -70,6 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout" />
 
 </RelativeLayout>

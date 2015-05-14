@@ -29,7 +29,6 @@ import eva.spejderapp.SingletonApp;
  * A simple {@link Fragment} subclass.
  */
 public class PostFrag extends Fragment implements View.OnClickListener, View.OnLongClickListener {
-    private View rod;
     private EditText postName, postNr, postContent, postLocation;
     private Button savePost, erasePost;
     private Game game;
@@ -41,14 +40,14 @@ public class PostFrag extends Fragment implements View.OnClickListener, View.OnL
 
     @Override
     public View onCreateView(LayoutInflater i, ViewGroup container, Bundle savedInstanceState) {
-        rod = i.inflate(R.layout.post_frag, container, false);
+        View view = i.inflate(R.layout.post_frag, container, false);
 
-        postName = (EditText) rod.findViewById(R.id.postName);
-        postNr = (EditText) rod.findViewById(R.id.postNumber);
-        postContent = (EditText) rod.findViewById(R.id.postDescription);
-        postLocation = (EditText) rod.findViewById(R.id.postLocation);
-        savePost = (Button) rod.findViewById(R.id.savePost);
-        erasePost = (Button) rod.findViewById(R.id.erasePost);
+        postName = (EditText) view.findViewById(R.id.postName);
+        postNr = (EditText) view.findViewById(R.id.postNumber);
+        postContent = (EditText) view.findViewById(R.id.postDescription);
+        postLocation = (EditText) view.findViewById(R.id.postLocation);
+        savePost = (Button) view.findViewById(R.id.savePost);
+        erasePost = (Button) view.findViewById(R.id.erasePost);
 
         savePost.setOnClickListener(this);
         erasePost.setOnClickListener(this);
@@ -67,14 +66,14 @@ public class PostFrag extends Fragment implements View.OnClickListener, View.OnL
             }
         }
 
-        if (SingletonApp.prefs.getBoolean("need_help",true)) {
+        if (SingletonApp.prefs.getBoolean("need_help", true)) {
             savePost.setOnLongClickListener(this);
             erasePost.setOnLongClickListener(this);
         }
 
         ((MainAct) getActivity()).getSupportActionBar().setTitle("Post");
 
-        return rod;
+        return view;
     }
 
     @Override

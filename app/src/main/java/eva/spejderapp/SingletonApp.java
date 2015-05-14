@@ -28,11 +28,11 @@ public class SingletonApp extends Application {
     }
 
     public static void gemData() {
-        String j1 = null;
+        String data;
         try {
-            j1 = factory.toString(data);
-            prefs.edit().putString("data", j1).commit();
-            System.out.println("Data gemt: " + j1);
+            data = factory.toString(SingletonApp.data);
+            prefs.edit().putString("data", data).apply();
+            System.out.println("Data gemt: " + data);
         } catch (IOException e) {
             e.printStackTrace();
         }

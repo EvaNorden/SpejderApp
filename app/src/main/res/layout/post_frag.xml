@@ -24,7 +24,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:hint="Postens navn"
+                android:hint="@string/postens_navn"
                 android:inputType="textCapSentences" />
 
             <EditText
@@ -36,20 +36,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/postNumber"
-                android:hint="Forklaring/Opgave/Beskrivelse"
+                android:hint="@string/forklaring"
                 android:inputType="textMultiLine" />
-
-            <Button
-                android:id="@+id/postImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/postLocation"
-                android:text="Tilføj Billede"
-                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/postNumber"
@@ -60,7 +48,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/postName"
-                android:hint="Postens nummer"
+                android:hint="@string/postens_nummer"
                 android:inputType="number" />
 
             <EditText
@@ -72,7 +60,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/postDescription"
-                android:hint="Postens adresse"
+                android:hint="@string/postens_adresse"
                 android:inputType="textCapSentences" />
 
             <LinearLayout
@@ -83,7 +71,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/postImage"
+                android:layout_below="@+id/postLocation"
                 android:orientation="horizontal">
 
                 <Button
@@ -91,17 +79,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Gem Post" />
+                    android:text="@string/gem_post" />
 
                 <Button
                     android:id="@+id/erasePost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Slet Post" />
+                    android:text="@string/slet_post" />
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
-
-
 </RelativeLayout>

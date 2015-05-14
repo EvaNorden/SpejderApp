@@ -33,13 +33,10 @@ import eva.spejderapp.SingletonApp;
  * A simple {@link Fragment} subclass.
  */
 public class CheckPostFrag extends Fragment implements View.OnClickListener, View.OnLongClickListener {
-    private View view;
     private Solution solution;
     private Game game;
     private Post post;
     private Button denied, approved;
-    private TextView description, solutionTV;
-    private ImageView imageView;
 
     public CheckPostFrag() {
         // Required empty public constructor
@@ -47,7 +44,7 @@ public class CheckPostFrag extends Fragment implements View.OnClickListener, Vie
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.check_post_frag, container, false);
+        View view = inflater.inflate(R.layout.check_post_frag, container, false);
 
         denied = (Button) view.findViewById(R.id.denied);
         approved = (Button) view.findViewById(R.id.approved);
@@ -55,12 +52,12 @@ public class CheckPostFrag extends Fragment implements View.OnClickListener, Vie
         denied.setOnClickListener(this);
         approved.setOnClickListener(this);
 
-        imageView = (ImageView) view.findViewById(R.id.imageView);
+        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
 
-        description = (TextView) view.findViewById(R.id.description);
-        solutionTV = (TextView) view.findViewById(R.id.solution);
+        TextView description = (TextView) view.findViewById(R.id.description);
+        TextView solutionTV = (TextView) view.findViewById(R.id.solution);
 
-        if (SingletonApp.prefs.getBoolean("need_help",true)) {
+        if (SingletonApp.prefs.getBoolean("need_help", true)) {
             denied.setOnLongClickListener(this);
             approved.setOnLongClickListener(this);
         }
@@ -71,8 +68,8 @@ public class CheckPostFrag extends Fragment implements View.OnClickListener, Vie
             solution = SingletonApp.getData().solutions.get(i);
             System.out.println("Løsning der skal tjekkes: " + solution);
             for (Game g : SingletonApp.getData().onlineGames) {
-                System.out.println("O.G. id: "+g.getId());
-                System.out.println("S. G. id: "+solution.getGameId());
+                System.out.println("O.G. id: " + g.getId());
+                System.out.println("S. G. id: " + solution.getGameId());
                 if (g.getId().equals(solution.getGameId())) {
                     game = g;
                 }
@@ -131,7 +128,7 @@ public class CheckPostFrag extends Fragment implements View.OnClickListener, Vie
                 dialog.setIndeterminate(true); // drejende hjul
                 dialog.setTitle("Sender svar");
                 dialog.setIcon(R.drawable.kfum_mork_trans1);
-                dialog.setMessage("Vent venligts");
+                dialog.setMessage("Vent venligst");
                 dialog.setCancelable(false);
                 dialog.show();
             }
@@ -142,8 +139,7 @@ public class CheckPostFrag extends Fragment implements View.OnClickListener, Vie
                         .setRootUrl("https://teak-blueprint-89907.appspot.com/_ah/api/");
 
                 try {
-                    Solution s = builder.build().update(solution.getId(), solution).execute();
-                    return s;
+                    return builder.build().update(solution.getId(), solution).execute();
                 } catch (IOException e) {
                     System.out.println(e);
                     return null;

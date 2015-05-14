@@ -26,7 +26,6 @@ public class GeofenceHelper implements GoogleApiClient.ConnectionCallbacks,
         LocationListener {
 
     public GoogleApiClient googleApiClient;
-    private LocationRequest locationRequest;
     private ArrayList<Geofence> geofenceList;
     private PendingIntent geofencePendingIntent;
     private Context act;
@@ -71,7 +70,7 @@ public class GeofenceHelper implements GoogleApiClient.ConnectionCallbacks,
 
     @Override
     public void onConnected(Bundle bundle) {
-        locationRequest = LocationRequest.create();
+        LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(10000); // Update location every 10 seconds
 
@@ -121,7 +120,7 @@ public class GeofenceHelper implements GoogleApiClient.ConnectionCallbacks,
      */
     public void addGeofencesHandler() {
         if (!googleApiClient.isConnected()) {
-            Toast.makeText(act, "Not connected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(act, "Not connected to Google", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -147,7 +146,7 @@ public class GeofenceHelper implements GoogleApiClient.ConnectionCallbacks,
      */
     public void removeGeofencesHandler() {
         if (!googleApiClient.isConnected()) {
-            Toast.makeText(act, "Not connected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(act, "Not connected to Google", Toast.LENGTH_SHORT).show();
             return;
         }
         try {
