@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,10 +31,11 @@ import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment som er spejderhovedmenuen hvor tilgængelige løb vises og et kan startes
  */
 public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickListener {
     private ListView games;
+    private Button download;
 
     public ScoutMainFrag() {
         // Required empty public constructor
@@ -43,6 +45,23 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.scout_main_frag, container, false);
+
+        download = (Button) view.findViewById(R.id.download);
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listEndpointsAsyncTask();
+            }
+        });
+        if (SingletonApp.prefs.getBoolean("need_help", true)) {
+            download.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(getActivity(), "Forsøg at hente løb igen", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+            });
+        }
 
         if (SingletonApp.getData().activeGame != null) {
             FindPostFrag fragment = new FindPostFrag();
@@ -69,7 +88,7 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
             });
         }
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null) { // hent kun fra nettet hvis det er et friskt fragment
             listEndpointsAsyncTask();
         } else {
             updateGameList(SingletonApp.getData().scoutGames);
@@ -139,8 +158,15 @@ public class ScoutMainFrag extends Fragment implements AdapterView.OnItemClickLi
             protected void onPostExecute(List<Game> result) {
                 System.out.println("Downloaded Game list: " + result);
                 dialog.dismiss();
-                SingletonApp.getData().scoutGames = result;
-                updateGameList(result);
+                if (result != null) {
+                    SingletonApp.getData().scoutGames = result;
+                    download.setVisibility(View.GONE);
+                    updateGameList(result);
+                } else {
+                    Toast.makeText(getActivity(), "Download mislykkedes\nTjek din internetforbindelse", Toast.LENGTH_LONG).show();
+                    SingletonApp.getData().scoutGames = new ArrayList<Game>();
+                    download.setVisibility(View.VISIBLE); // Da kommunikationen fejlede skal det være muligt at prøve igen
+                }
             }
         }.execute();
     }

@@ -19,7 +19,8 @@ import com.google.android.gms.location.LocationServices;
 import java.util.ArrayList;
 
 /**
- * Created by Eva on 02-05-2015.
+ * Klasse der ordner det meste mht Geofences
+ * Source: https://github.com/googlesamples/android-play-location/blob/master/Geofencing/app/src/main/java/com/google/android/gms/location/sample/geofencing/MainActivity.java
  */
 public class GeofenceHelper implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,

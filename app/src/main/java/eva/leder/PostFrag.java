@@ -26,7 +26,7 @@ import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment som gør det muligt at oprette og ændre poster
  */
 public class PostFrag extends Fragment implements View.OnClickListener, View.OnLongClickListener {
     private EditText postName, postNr, postContent, postLocation;
@@ -89,15 +89,19 @@ public class PostFrag extends Fragment implements View.OnClickListener, View.OnL
     public void onClick(View v) {
         if (v == savePost) {
             Boolean sameNo = false;
-            for (Post p : game.getPosts()) {
-                if (p.getNumber().equals(Integer.parseInt(postNr.getText().toString())) && p != post) {
-                    Toast.makeText(getActivity(), "En post med samme nummer findes allerede", Toast.LENGTH_LONG).show();
-                    sameNo = true;
+            if (postNr.getText().length() != 0) { // Poster skal have unikke numre i et løb så det tjekkes
+                for (Post p : game.getPosts()) {
+                    if (p.getNumber().equals(Integer.parseInt(postNr.getText().toString())) && p != post) {
+                        Toast.makeText(getActivity(), "En post med samme nummer findes allerede", Toast.LENGTH_LONG).show();
+                        sameNo = true;
+                    }
                 }
-            }
-            if (!sameNo) {
-                String address = postLocation.getText().toString();
-                getGPSFromAddress(address);
+                if (!sameNo) {
+                    String address = postLocation.getText().toString();
+                    getGPSFromAddress(address);
+                }
+            } else {
+                Toast.makeText(getActivity(), "Posten skal have et nummer", Toast.LENGTH_LONG).show();
             }
         } else if (v == erasePost) {
             if (post != null) {
@@ -112,14 +116,14 @@ public class PostFrag extends Fragment implements View.OnClickListener, View.OnL
         double lat = 0;
         double lng = 0;
         String foundAddress = "";
-        try {
+        try { // GPS fra adresse
             List<Address> addressList = geocoder.getFromLocationName(locationAddress, 1);
             if (addressList != null && addressList.size() > 0) {
                 Address address = addressList.get(0);
                 lat = address.getLatitude();
                 lng = address.getLongitude();
             }
-
+            // Adresse fra GPS
             addressList = geocoder.getFromLocation(lat, lng, 1);
             if (addressList != null && addressList.size() > 0) {
                 Address address = addressList.get(0);
@@ -135,41 +139,49 @@ public class PostFrag extends Fragment implements View.OnClickListener, View.OnL
             return;
         }
 
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
-        builderSingle.setTitle("Er lokationen korrekt?");
-        builderSingle.setMessage(foundAddress);
+        if (post != null && foundAddress.equals(post.getLocation())) { // Samme adresse er allerede godkendt
+            post.setName(postName.getText().toString());
+            post.setDescription(postContent.getText().toString());
+            post.setNumber(Integer.parseInt(postNr.getText().toString()));
+            post.setLocation(foundAddress);
+            post.setLatitude(lat);
+            post.setLongitude(lng);
+            getActivity().onBackPressed();
+        } else {
+            final String finalFoundAddress = foundAddress;
+            final double finalLat = lat;
+            final double finalLng = lng;
 
-        final String finalFoundAddress = foundAddress;
-        final double finalLat = lat;
-        final double finalLng = lng;
-        builderSingle.setPositiveButton("Ja",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        System.out.println("Adresse korrekt");
-                        if (post == null) {
-                            post = new Post();
-                            game.getPosts().add(post);
-                        }
-                        post.setName(postName.getText().toString());
-                        post.setDescription(postContent.getText().toString());
-                        post.setNumber(Integer.parseInt(postNr.getText().toString()));
-                        post.setLocation(finalFoundAddress);
-                        post.setLatitude(finalLat);
-                        post.setLongitude(finalLng);
-                        getActivity().onBackPressed();
-                    }
-                });
-
-        builderSingle.setNegativeButton("Nej",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        System.out.println("Adresse forkert");
-                        dialog.dismiss();
-                    }
-                });
-
-        builderSingle.show();
+            AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+            builderSingle.setTitle("Er lokationen korrekt?")
+                    .setMessage(foundAddress)
+                    .setPositiveButton("Ja",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    System.out.println("Adresse korrekt");
+                                    if (post == null) {
+                                        post = new Post();
+                                        game.getPosts().add(post);
+                                    }
+                                    post.setName(postName.getText().toString());
+                                    post.setDescription(postContent.getText().toString());
+                                    post.setNumber(Integer.parseInt(postNr.getText().toString()));
+                                    post.setLocation(finalFoundAddress);
+                                    post.setLatitude(finalLat);
+                                    post.setLongitude(finalLng);
+                                    getActivity().onBackPressed();
+                                }
+                            })
+                    .setNegativeButton("Nej",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    System.out.println("Adresse forkert");
+                                    dialog.dismiss();
+                                }
+                            })
+                    .show();
+        }
     }
 }

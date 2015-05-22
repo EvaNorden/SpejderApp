@@ -22,7 +22,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Eva on 24-04-2015.
+ * IntentService der reagerer på beskeder fra GCM og opretter nødvendige notifikationer
+ * Source: https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints
  */
 public class GcmIntentService extends IntentService {
     private int solIndex = -1;
@@ -81,7 +82,6 @@ public class GcmIntentService extends IntentService {
                             noti("check_post", "En post er løst", "Tjek løsningen nu", 0);
                         }
                     }
-                //} else if (SingletonApp.getData().activeGame != null && sol.getGameId().equals(SingletonApp.getData().activeGame.getId())) {
                 } else if (SingletonApp.getData().solution != null && SingletonApp.getData().solution.getId().equals(sol.getId())) {
                     if (sol.getApproved() == 1) {
                         SingletonApp.getData().solution = sol;
@@ -109,7 +109,6 @@ public class GcmIntentService extends IntentService {
                         SingletonApp.getData().activeGame.setPostCounter(SingletonApp.getData().activeGame.getPostCounter() + 1);
                         if (SingletonApp.getData().activeGame.getPostCounter() >= SingletonApp.getData().activeGame.getPosts().size()) {
                             SingletonApp.getData().activeGame = null;
-                            // unregister GCM
                             noti("game_over", "Tillykke", "Alle poster i løbet er gennemført", 3);
                         } else {
                             noti("next_post", "Post godkendt", "Find næste post", 2);

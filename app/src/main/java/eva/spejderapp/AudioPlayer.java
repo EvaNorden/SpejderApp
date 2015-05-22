@@ -4,7 +4,8 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 /**
- * Found here: http://stackoverflow.com/questions/18254870/play-a-sound-from-res-raw
+ * Klasse der kan afspille lyd
+ * Source: http://stackoverflow.com/questions/18254870/play-a-sound-from-res-raw
  */
 public class AudioPlayer {
 

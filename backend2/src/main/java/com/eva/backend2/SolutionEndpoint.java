@@ -83,6 +83,7 @@ public class SolutionEndpoint {
         // If your client provides the ID then you should probably use PUT instead.
         ofy().save().entity(solution).now();
         logger.info("Created Solution with ID: " + solution.getId());
+        // Tilføjet kode der sender GCM besked
         try {
             new MessagingEndpoint().sendMessage("" + solution.getId());
         } catch (IOException e) {
@@ -110,7 +111,7 @@ public class SolutionEndpoint {
         checkExists(id);
         ofy().save().entity(solution).now();
         logger.info("Updated Solution: " + solution);
-
+        // Tilføjet kode der sender GCM besked
         try {
             new MessagingEndpoint().sendMessage("" + solution.getId());
         } catch (IOException e) {

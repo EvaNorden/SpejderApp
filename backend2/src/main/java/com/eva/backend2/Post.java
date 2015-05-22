@@ -1,11 +1,9 @@
 package com.eva.backend2;
 
-import java.io.Serializable;
-
 /**
- * Created by Eva on 12-03-2015.
+ * Klasse der holder styr på en posts variabler
  */
-public class Post implements Serializable {
+public class Post {
     private String name;
     private int number;
     private String description;

@@ -3,14 +3,13 @@ package com.eva.backend2;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by Eva on 12-03-2015.
+ * Klasse der holder styr på et løbs variabler
  */
 @Entity
-public class Game implements Serializable {
+public class Game {
     @Id
     private Long id;
     private String name;

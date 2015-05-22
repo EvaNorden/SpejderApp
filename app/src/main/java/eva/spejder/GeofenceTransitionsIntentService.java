@@ -23,6 +23,7 @@ import eva.spejderapp.SingletonApp;
  * Receives geofence transition events from Location Services in the form of an Intent containing
  * the transition type and geofence id(s) that triggered the transition. Creates a notification
  * as the output.
+ * Source: https://github.com/googlesamples/android-play-location/blob/master/Geofencing/app/src/main/java/com/google/android/gms/location/sample/geofencing/GeofenceTransitionsIntentService.java
  */
 public class GeofenceTransitionsIntentService extends IntentService {
 

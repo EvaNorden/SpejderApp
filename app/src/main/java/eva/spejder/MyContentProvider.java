@@ -13,6 +13,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * ContentProvider så kamera-appen leverer et godt resultat
+ * Source: Jacob Nordfalks AndroidElementer, lekt08_providers, MinProvider.java
+ */
 public class MyContentProvider extends ContentProvider {
     public static final Uri URI = Uri.parse("content://eva.spejder.MyContentProvider/1");
     public static final String FILNAVN = "billede.jpg";

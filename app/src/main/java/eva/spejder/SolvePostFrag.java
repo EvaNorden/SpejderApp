@@ -34,7 +34,7 @@ import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment hvor en post skal løses og løsningen lægges i backend'en
  */
 public class SolvePostFrag extends Fragment implements View.OnClickListener, View.OnLongClickListener {
     private Button send, image;
@@ -95,21 +95,14 @@ public class SolvePostFrag extends Fragment implements View.OnClickListener, Vie
             i.putExtra(MediaStore.EXTRA_OUTPUT, MyContentProvider.URI);
             startActivityForResult(i, 1004);
         } else if (v == send) {
-            if (postSolution != null) {
-                //SingletonApp.getData().solutions.remove(postSolution);
-                postSolution.setGameId(game.getId());
-                postSolution.setPostNumber(post.getNumber());
-                postSolution.setMessage(solution.getText().toString());
-                postSolution.setApproved(0);
-                postSolution.setImage(encodedImage);
-            } else {
+            if (postSolution == null) {
                 postSolution = new Solution();
-                postSolution.setGameId(game.getId());
-                postSolution.setPostNumber(post.getNumber());
-                postSolution.setMessage(solution.getText().toString());
-                postSolution.setApproved(0);
-                postSolution.setImage(encodedImage);
             }
+            postSolution.setGameId(game.getId());
+            postSolution.setPostNumber(post.getNumber());
+            postSolution.setMessage(solution.getText().toString());
+            postSolution.setApproved(0);
+            postSolution.setImage(encodedImage);
 
             SingletonApp.getData().solution = postSolution;
 
@@ -167,7 +160,7 @@ public class SolvePostFrag extends Fragment implements View.OnClickListener, Vie
             System.out.println(requestCode + " gav resultat " + resultCode + " med data=" + data);
 
             if (resultCode == Activity.RESULT_OK) {
-                try {
+                try { // Billedet kodes til en streng så det kan uploades til backend'en
                     Bitmap photo = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), MyContentProvider.URI);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     photo.compress(Bitmap.CompressFormat.JPEG, 50, baos);

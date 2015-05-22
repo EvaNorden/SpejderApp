@@ -29,7 +29,11 @@ import eva.spejderapp.MainAct;
 import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
-public class LeaderMainFrag extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, View.OnLongClickListener {
+/**
+ * Fragment der er hovedmenu for leder delen af appen
+ */
+public class LeaderMainFrag extends Fragment implements View.OnClickListener,
+        AdapterView.OnItemClickListener, View.OnLongClickListener {
     private Button newGame, startGame, endGame;
 
     public LeaderMainFrag() {
@@ -112,7 +116,7 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
             builderSingle.setIcon(R.drawable.kfum_mork_trans1);
             builderSingle.setTitle("Vælg et løb:");
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.select_dialog_singlechoice);
+                    android.R.layout.select_dialog_item);
             final ArrayList<Game> gamesForUpload = new ArrayList<Game>();
             for (Game game : SingletonApp.getData().games) {
                 arrayAdapter.add(game.getName());
@@ -145,7 +149,7 @@ public class LeaderMainFrag extends Fragment implements View.OnClickListener, Ad
             builderSingle.setIcon(R.drawable.kfum_mork_trans1);
             builderSingle.setTitle("Vælg et løb:");
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.select_dialog_singlechoice);
+                    android.R.layout.select_dialog_item);
             for (Game game : SingletonApp.getData().onlineGames) {
                 arrayAdapter.add(game.getName());
             }

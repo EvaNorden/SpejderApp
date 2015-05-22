@@ -24,6 +24,9 @@ import eva.spejderapp.MainAct;
 import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
+/**
+ * Fragment som giver mulighed for at oprette og ændre løb
+ */
 public class GameFrag extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, View.OnLongClickListener {
     ArrayList<String> postNames;
     private EditText gameName;
@@ -114,32 +117,29 @@ public class GameFrag extends Fragment implements View.OnClickListener, AdapterV
                     .addToBackStack(null)
                     .commit();
         } else if (v == diffLevel) {
-            AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
-            builderSingle.setIcon(R.drawable.kfum_mork_trans1);
-            builderSingle.setTitle("Find post sværhedsgrad");
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.select_dialog_singlechoice);
-            arrayAdapter.add("Kort med markør");
-            arrayAdapter.add("Adresse");
-            arrayAdapter.add("GPS-koordinater");
-            arrayAdapter.add("Retning og afstand");
+            String[] diffs = {"Kort med markør","Adresse","GPS-koordinater","Retning og afstand"};
 
-            builderSingle.setNegativeButton("cancel",
+            if (game.getDifficultyLevel() == null)
+                game.setDifficultyLevel(0);
+
+            AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+            builderSingle.setIcon(R.drawable.kfum_mork_trans1)
+                    .setTitle("Find post sværhedsgrad")
+                    .setSingleChoiceItems(diffs,game.getDifficultyLevel(),new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            game.setDifficultyLevel(which);
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("cancel",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
-                    });
-
-            builderSingle.setAdapter(arrayAdapter,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            game.setDifficultyLevel(which);
-                        }
-                    });
-            builderSingle.show();
+                    })
+                    .show();
         } else if (v == saveGame) {
             game.setName(gameName.getText().toString());
             getActivity().onBackPressed();

@@ -6,6 +6,9 @@ import com.eva.backend2.solutionApi.model.Solution;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GenericJson som holder styr på dataen der skal gemmes lokalt på enheden
+ */
 public class ProgramData extends com.google.api.client.json.GenericJson {
 
     // Leder data

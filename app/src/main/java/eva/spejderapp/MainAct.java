@@ -19,6 +19,10 @@ import eva.spejder.FindPostFrag;
 import eva.spejder.ScoutMainFrag;
 import eva.spejder.SolvePostFrag;
 
+/**
+ * Aktivitet som alle fragmenter ligger i
+ *           som styrer alle notifikation's intents
+ */
 public class MainAct extends ActionBarActivity implements DialogInterface.OnClickListener {
     private final String[] items = {"Spejder", "Leder"};
 
@@ -167,7 +171,7 @@ public class MainAct extends ActionBarActivity implements DialogInterface.OnClic
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() { // Overrider metoden fordi den ikke virker ordentligt
         if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         } else {
@@ -175,6 +179,9 @@ public class MainAct extends ActionBarActivity implements DialogInterface.OnClic
         }
     }
 
+    /**
+     * PreferenceFragment der viser de mulige instillinger
+     */
     public static class PrefFrag extends PreferenceFragment {
 
         @Override
@@ -194,6 +201,5 @@ public class MainAct extends ActionBarActivity implements DialogInterface.OnClic
             ((MainAct) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             ((MainAct) getActivity()).supportInvalidateOptionsMenu();
         }
-
     }
 }

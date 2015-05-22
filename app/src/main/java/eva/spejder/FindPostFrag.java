@@ -27,7 +27,8 @@ import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment der viser en posts placering på en af fire måder
+ * Geofence oprettet på posten
  */
 public class FindPostFrag extends Fragment implements View.OnClickListener {
     private Button skip;
@@ -50,8 +51,7 @@ public class FindPostFrag extends Fragment implements View.OnClickListener {
             SingletonApp.geofenceHelper.addGeofence(postPosition.latitude, postPosition.longitude);
         }
 
-        // Inflate the layout for this fragment
-        View view;
+        View view; // To forskellige views alt efter hvilken måde placeringen skal vises på
         if (game.getDifficultyLevel() == 0 || game.getDifficultyLevel() > 3) {
             view = inflater.inflate(R.layout.find_post_frag_0, container, false);
 
@@ -124,7 +124,7 @@ public class FindPostFrag extends Fragment implements View.OnClickListener {
 
             @Override
             protected Void doInBackground(Void... params) {
-                while (SingletonApp.geofenceHelper.getCurrentLocation() == null);
+                while (SingletonApp.geofenceHelper.getCurrentLocation() == null); // venter på placering så retning og afstand kan udregnes
                 return null;
             }
 

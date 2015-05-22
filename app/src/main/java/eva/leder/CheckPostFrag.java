@@ -30,7 +30,7 @@ import eva.spejderapp.R;
 import eva.spejderapp.SingletonApp;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment som viser en post løsning og giver mulighed for at godkende eller afvise løsningen
  */
 public class CheckPostFrag extends Fragment implements View.OnClickListener, View.OnLongClickListener {
     private Solution solution;
@@ -148,9 +148,14 @@ public class CheckPostFrag extends Fragment implements View.OnClickListener, Vie
 
             @Override
             protected void onPostExecute(Solution sol) {
-                System.out.println("Solution checked: " + sol);
-                dialog.dismiss();
-                getActivity().onBackPressed();
+                if (sol != null) {
+                    System.out.println("Solution checked: " + sol);
+                    dialog.dismiss();
+                    getActivity().onBackPressed();
+                } else {
+                    dialog.dismiss();
+                    Toast.makeText(getActivity(),"Kommunikationsfejl\nTjek din internetforbindelse",Toast.LENGTH_LONG).show();
+                }
             }
         }.execute();
     }

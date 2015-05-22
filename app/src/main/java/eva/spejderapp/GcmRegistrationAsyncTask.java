@@ -14,12 +14,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Eva on 24-04-2015.
+ * AsyncTask til enhedsregistrering ved Google Cloud Messaging
+ * Source: https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints
  */
 public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
     private static final String SENDER_ID = "384879969890"; // my project's number
     private static Registration regService = null;
-    int i;
+    private int i;
     private GoogleCloudMessaging gcm;
     private Context context;
 
@@ -38,7 +39,7 @@ public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
 
         String msg = "";
         Long waitTime = 1000L;
-        for (i = 0; i < 10; i++) {
+        for (i = 0; i < 10; i++) { // Forsøger registrering 10 gange med større og større mellemrum (tager ca. 17 min)
             try {
                 if (gcm == null) {
                     gcm = GoogleCloudMessaging.getInstance(context);
@@ -46,10 +47,6 @@ public class GcmRegistrationAsyncTask extends AsyncTask<Void, Void, String> {
                 String regId = gcm.register(SENDER_ID);
                 msg = "Device registered, registration ID=" + regId;
 
-                // You should send the registration ID to your server over HTTP,
-                // so it can use GCM/HTTP or CCS to send messages to your app.
-                // The request to your server should be authenticated if your app
-                // is using accounts.
                 regService.register(regId).execute();
                 break;
             } catch (IOException ex) {

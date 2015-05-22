@@ -7,7 +7,8 @@ import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
 /**
- * Created by Eva on 24-04-2015.
+ * BroadcastReceiver som modtager beskeder fra Google Cloud Messaging
+ * Source: https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/GcmEndpoints
  */
 public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
     @Override

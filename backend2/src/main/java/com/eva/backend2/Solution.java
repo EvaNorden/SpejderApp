@@ -5,7 +5,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 /**
- * Created by Eva on 22-04-2015.
+ * Klasse der holder styr på en løsnings variabler
  */
 @Entity
 public class Solution {

@@ -11,10 +11,7 @@ import java.io.IOException;
 import eva.spejder.GeofenceHelper;
 
 /**
- * Her kan foretages fælles initialisering.
- * Resten af programmet bliver først initialiseret efter at objektet og
- * kaldet til metoden onCreate() er afsluttet, så det er vigtigt kun at
- * udføre de allermest nødvendige ting her.
+ * Her kan foretages fælles initialisering
  */
 public class SingletonApp extends Application {
     public static SharedPreferences prefs;
